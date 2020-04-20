@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HnCompanyTasks</name>
+    </assembly>
+    <members>
+        <member name="P:HnCompanyTasks.Models.TaskData.Id">
+            <summary>
+            任务编号
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.TaskData.Task_TaskType">
+            <summary>
+            任务类型
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.TaskData.Task_BusinessType">
+            <summary>
+            业务类型
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.TaskData.Task_CreateTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.TaskData.Task_PresetTime">
+            <summary>
+            预定时间
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.TaskData.Task_Interval">
+            <summary>
+            时间间隔
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.TaskData.Task_IntervalTime">
+            <summary>
+            间隔时间
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.TaskData.Task_LastExecuteTime">
+            <summary>
+            最后执行时间
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.TaskData.Task_ExecuteReuslt">
+            <summary>
+            执行结果 0 是False 1是True
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.TaskData.Task_Describe">
+            <summary>
+            描述
+            </summary>
+        </member>
+    </members>
+</doc>
