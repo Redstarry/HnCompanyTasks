@@ -49,7 +49,7 @@ namespace HnCompanyTasks.Models
         /// <summary>
         /// 执行结果 0 是False 1是True
         /// </summary>
-        public bool Task_ExecuteReuslt { get; set; }
+        public int Task_ExecuteReuslt { get; set; }
         /// <summary>
         /// 描述
         /// </summary>
@@ -57,6 +57,6 @@ namespace HnCompanyTasks.Models
         /// <summary>
         /// 是否存在
         /// </summary>
-        public bool IsExists { get; set; }
+        public int Task_Isexists { get; set; }
     }
 }

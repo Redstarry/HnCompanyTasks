@@ -10,7 +10,10 @@ namespace HnCompanyTasks.Models.Quartz
     {
         public Task Execute(IJobExecutionContext context)
         {
-            throw new NotImplementedException();
+            return Task.Run(()=> {
+
+                Console.WriteLine("已开启");
+            });
         }
     }
 }

@@ -11,9 +11,9 @@ namespace HnCompanyTasks.Models
         /// <summary>
         /// 添加数据
         /// </summary>
-        /// <param name="responseData">添加的内容</param>
+        /// <param name="taskRequestData">添加的内容</param>
         /// <returns></returns>
-        Task<TaskRequestData> AddTask(ResponseData responseData);
+        Task<ResponseData> AddTask(TaskRequestData taskRequestData);
         /// <summary>
         /// 更新数据
         /// </summary>

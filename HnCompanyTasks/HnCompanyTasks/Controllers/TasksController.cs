@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
 using HnCompanyTasks.Models.Data;
+using HnCompanyTasks.Models;
 
 namespace HnCompanyTasks.Controllers
 {
@@ -14,15 +15,21 @@ namespace HnCompanyTasks.Controllers
     [ApiController]
     public class TasksController : ControllerBase
     {
+        private readonly ITasksServer tasksServer;
+
+        public TasksController(ITasksServer tasksServer)
+        {
+            this.tasksServer = tasksServer;
+        }
         [HttpGet]
         public async Task<IActionResult> GetTaskAll()
         {
             throw new Exception();
         }
-        [HttpPost]
+        [HttpPost("task")]
         public async Task<IActionResult> Add(TaskRequestData taskRequestData)
         {
-            throw new Exception();
+            return Ok(await tasksServer.AddTask(taskRequestData));
         }
         [HttpPost]
         public async Task<IActionResult> GetTask(TaskRequestData taskRequestData)

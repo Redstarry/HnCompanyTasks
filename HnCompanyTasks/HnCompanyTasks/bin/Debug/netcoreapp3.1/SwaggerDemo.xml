@@ -4,9 +4,49 @@
         <name>HnCompanyTasks</name>
     </assembly>
     <members>
+        <member name="P:HnCompanyTasks.Models.Data.TaskRequestData.Id">
+            <summary>
+            任务ID 操作使用
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.Data.TaskRequestData.Task_Name">
+            <summary>
+            任务名字
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.Data.TaskRequestData.Task_TaskType">
+            <summary>
+            任务类型
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.Data.TaskRequestData.Task_BusinessType">
+            <summary>
+            业务类型
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.Data.TaskRequestData.Task_PresetTime">
+            <summary>
+            预定时间
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.Data.TaskRequestData.Task_Interval">
+            <summary>
+            间隔时间
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.Data.TaskRequestData.Task_Describe">
+            <summary>
+            描述
+            </summary>
+        </member>
         <member name="P:HnCompanyTasks.Models.TaskData.Id">
             <summary>
             任务编号
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.TaskData.Task_Name">
+            <summary>
+            任务名字
             </summary>
         </member>
         <member name="P:HnCompanyTasks.Models.TaskData.Task_TaskType">
@@ -53,6 +93,81 @@
             <summary>
             描述
             </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.TaskData.Task_Isexists">
+            <summary>
+            是否存在
+            </summary>
+        </member>
+        <member name="M:HnCompanyTasks.Models.ITasksServer.AddTask(HnCompanyTasks.Models.Data.TaskRequestData)">
+            <summary>
+            添加数据
+            </summary>
+            <param name="taskRequestData">添加的内容</param>
+            <returns></returns>
+        </member>
+        <member name="M:HnCompanyTasks.Models.ITasksServer.UpdateTask(System.Int32,HnCompanyTasks.Models.Data.ResponseData)">
+            <summary>
+            更新数据
+            </summary>
+            <param name="id">数据的编号</param>
+            <param name="responseData">更新后的内容</param>
+            <returns></returns>
+        </member>
+        <member name="M:HnCompanyTasks.Models.ITasksServer.GetTask">
+            <summary>
+            获取全部任务
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HnCompanyTasks.Models.ITasksServer.GetTask(HnCompanyTasks.Models.Data.ResponseData)">
+            <summary>
+            根据特定的内容查询任务
+            </summary>
+            <param name="responseData">查询的任务数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:HnCompanyTasks.Models.ITasksServer.DeleteTask(System.Int32)">
+            <summary>
+            删除任务
+            </summary>
+            <param name="id">任务的编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:HnCompanyTasks.Models.TasksServer.AddTask(HnCompanyTasks.Models.Data.TaskRequestData)">
+            <summary>
+            新增任务
+            </summary>
+            <param name="taskRequestData">新增的数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:HnCompanyTasks.Models.TasksServer.DeleteTask(System.Int32)">
+            <summary>
+            删除数据
+            </summary>
+            <param name="id">数据的编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:HnCompanyTasks.Models.TasksServer.GetTask">
+            <summary>
+            获取全部的任务
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HnCompanyTasks.Models.TasksServer.GetTask(HnCompanyTasks.Models.Data.ResponseData)">
+            <summary>
+            获取相关的任务
+            </summary>
+            <param name="responseData">查询的数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:HnCompanyTasks.Models.TasksServer.UpdateTask(System.Int32,HnCompanyTasks.Models.Data.ResponseData)">
+            <summary>
+            更新数据
+            </summary>
+            <param name="id">任务编号</param>
+            <param name="responseData">更新后的数据</param>
+            <returns></returns>
         </member>
     </members>
 </doc>
