@@ -13,7 +13,7 @@ namespace HnCompanyTasks.Models
     {
         //private readonly ISchedulerFactory _schedulerFactory;
         private readonly IMapper mapper;
-        //private IScheduler scheduler;
+        private IScheduler scheduler;
         private HelperFunction helperFunction;
         private FormalBusiness formalBusiness;
         private PetaPoco.Database Db;
@@ -50,8 +50,9 @@ namespace HnCompanyTasks.Models
                     taskData.Task_ExecuteReuslt = 0;
                     taskData.Task_Isexists = 1;
                     await  Db.InsertAsync(taskData);
-                    var dateTimeSet = await formalBusiness.AddOneOffTask(taskData);
-                    return new ResponseData("增加一次性任务成功", "", StatusCode.Success);
+                    await formalBusiness.AddOneOffTask(taskData);
+                    //await Db.PageAsync<TaskData>(1, 5, "where Task_Isexists = 1");
+                    return new ResponseData("增加一次性任务成功", await Db.PageAsync<TaskData>(1, 5, "where Task_Isexists = 1"), StatusCode.Success);
                 // 添加定时任务
                 case "TimedTask":
                     var dateTimeMap = await formalBusiness.AddTimedTask(taskData);
@@ -61,9 +62,9 @@ namespace HnCompanyTasks.Models
                     taskData.Task_ExecuteReuslt = 0;
                     taskData.Task_Isexists = 1;
                     await Db.InsertAsync(taskData);
-                    return new ResponseData("增加定时任务成功", "", StatusCode.Success);
+                    return new ResponseData("增加定时任务成功", await Db.PageAsync<TaskData>(1, 5, "where Task_Isexists = 1"), StatusCode.Success);
                 default:
-                    return new ResponseData("增加任务失败，请明确任务类型", "", StatusCode.Success);;
+                    return new ResponseData("增加任务失败，请明确任务类型", "", StatusCode.Success);
             }
             
         }
@@ -72,15 +73,26 @@ namespace HnCompanyTasks.Models
         /// </summary>
         /// <param name="id">数据的编号</param>
         /// <returns></returns>
-        public Task<TaskRequestData> DeleteTask(int id)
+        public async Task<ResponseData> DeleteTask(int id)
         {
-            throw new NotImplementedException();
+            var selectData = Db.SingleOrDefault<TaskData>("where id = @0", id);
+            if (selectData == null)
+            {
+                return new ResponseData("删除的数据不存在","",StatusCode.Fail);
+            }
+           await Db.UpdateAsync<TaskData>("set Task_Isexists = 0 where Id = @0", id);
+            if (!await scheduler.DeleteJob(new JobKey(selectData.Task_Name)))
+            {
+                return new ResponseData("删除任务失败", "", StatusCode.Fail);
+            }
+
+            return new ResponseData("删除任务成功", "", StatusCode.Success);
         }
         /// <summary>
         /// 获取全部的任务
         /// </summary>
         /// <returns></returns>
-        public Task<TaskRequestData> GetTask()
+        public Task<ResponseData> GetTask()
         {
             throw new NotImplementedException();
         }
@@ -89,7 +101,7 @@ namespace HnCompanyTasks.Models
         /// </summary>
         /// <param name="responseData">查询的数据</param>
         /// <returns></returns>
-        public Task<TaskRequestData> GetTask(ResponseData responseData)
+        public Task<ResponseData> GetTask(ResponseData responseData)
         {
             throw new NotImplementedException();
         }
@@ -99,7 +111,7 @@ namespace HnCompanyTasks.Models
         /// <param name="id">任务编号</param>
         /// <param name="responseData">更新后的数据</param>
         /// <returns></returns>
-        public Task<TaskRequestData> UpdateTask(int id, ResponseData responseData)
+        public Task<ResponseData> UpdateTask(int id, ResponseData responseData)
         {
             throw new NotImplementedException();
         }
