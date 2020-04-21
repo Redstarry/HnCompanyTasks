@@ -298,8 +298,6 @@ F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\bin\Debug\netcoreapp3.1\netcoreapp
 F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\bin\Debug\netcoreapp3.1\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\bin\Debug\netcoreapp3.1\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\bin\Debug\netcoreapp3.1\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\obj\Debug\netcoreapp3.1\HnCompanyTasks.MvcApplicationPartsAssemblyInfo.cs
-F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\obj\Debug\netcoreapp3.1\HnCompanyTasks.MvcApplicationPartsAssemblyInfo.cache
 F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\obj\Debug\netcoreapp3.1\HnCompanyTasks.csproj.CopyComplete
 F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\obj\Debug\netcoreapp3.1\HnCompanyTasks.dll
 F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\obj\Debug\netcoreapp3.1\HnCompanyTasks.pdb

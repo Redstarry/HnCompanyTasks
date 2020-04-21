@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Quartz;
 using Quartz.Impl;
+using AutoMapper;
 
 namespace HnCompanyTasks
 {
@@ -32,6 +33,7 @@ namespace HnCompanyTasks
             services.AddTransient<ITasksServer, TasksServer>();
             services.AddTransient<ISchedulerFactory, StdSchedulerFactory>();
             services.AddCors(option => option.AddPolicy("Domain", builder=>builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
+            services.AddAutoMapper(typeof(Startup));
             services.AddSwaggerGen(option => {
                 option.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
                 {
