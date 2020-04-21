@@ -15,6 +15,10 @@ namespace HnCompanyTasks.Models
         /// </summary>
         public int Id { get; set; }
         /// <summary>
+        /// 任务名字
+        /// </summary>
+        public string Task_Name { get; set; }
+        /// <summary>
         /// 任务类型
         /// </summary>
         public string Task_TaskType { get; set; }
@@ -45,11 +49,14 @@ namespace HnCompanyTasks.Models
         /// <summary>
         /// 执行结果 0 是False 1是True
         /// </summary>
-        public string Task_ExecuteReuslt { get; set; }
+        public bool Task_ExecuteReuslt { get; set; }
         /// <summary>
         /// 描述
         /// </summary>
         public string Task_Describe { get; set; }
-
+        /// <summary>
+        /// 是否存在
+        /// </summary>
+        public bool IsExists { get; set; }
     }
 }

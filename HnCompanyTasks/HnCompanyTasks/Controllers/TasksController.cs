@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
+using HnCompanyTasks.Models.Data;
 
 namespace HnCompanyTasks.Controllers
 {
@@ -14,22 +15,27 @@ namespace HnCompanyTasks.Controllers
     public class TasksController : ControllerBase
     {
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetTaskAll()
         {
             throw new Exception();
         }
         [HttpPost]
-        public async Task<IActionResult> Add()
+        public async Task<IActionResult> Add(TaskRequestData taskRequestData)
         {
             throw new Exception();
         }
-        [HttpPut]
-        public async Task<IActionResult> update()
+        [HttpPost]
+        public async Task<IActionResult> GetTask(TaskRequestData taskRequestData)
         {
             throw new Exception();
         }
-        [HttpDelete]
-        public async Task<IActionResult> delete()
+        [HttpPut("{id}")]
+        public async Task<IActionResult> update( int id)
+        {
+            throw new Exception();
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> delete(int id)
         {
             throw new Exception();
         }
