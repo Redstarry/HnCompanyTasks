@@ -6,12 +6,13 @@ using HnCompanyTasks.Business;
 using HnCompanyTasks.Models.Data;
 using Quartz;
 using AutoMapper;
+using ContactsAPI.Models.PageModel;
 
 namespace HnCompanyTasks.Models
 {
     public class TasksServer:ITasksServer
     {
-        //private readonly ISchedulerFactory _schedulerFactory;
+        private readonly ISchedulerFactory _schedulerFactory;
         private readonly IMapper mapper;
         private IScheduler scheduler;
         private HelperFunction helperFunction;
@@ -20,10 +21,11 @@ namespace HnCompanyTasks.Models
 
         public TasksServer(ISchedulerFactory schedulerFactory,IMapper mapper)
         {
-            //_schedulerFactory = schedulerFactory??throw new ArgumentNullException(nameof(schedulerFactory));
+            _schedulerFactory = schedulerFactory ?? throw new ArgumentNullException(nameof(schedulerFactory));
             this.mapper = mapper;
             helperFunction = new HelperFunction();
             formalBusiness = new FormalBusiness(schedulerFactory);
+            scheduler = _schedulerFactory.GetScheduler().Result;
             Db = new PetaPoco.Database("server = .;database = TaskInfo;uid = sa; pwd = 123", "System.Data.SqlClient", null);
         }
 
@@ -31,8 +33,9 @@ namespace HnCompanyTasks.Models
         /// 新增任务
         /// </summary>
         /// <param name="taskRequestData">新增的数据</param>
+        /// <param name="page"></param>
         /// <returns></returns>
-        public async Task<ResponseData> AddTask(TaskRequestData taskRequestData)
+        public async Task<ResponseData> AddTask(TaskRequestData taskRequestData, Page page)
         {
             if (!helperFunction.CheckForNull(taskRequestData))
             {
@@ -51,7 +54,7 @@ namespace HnCompanyTasks.Models
                     taskData.Task_Isexists = 1;
                     await  Db.InsertAsync(taskData);
                     await formalBusiness.AddOneOffTask(taskData);
-                    //await Db.PageAsync<TaskData>(1, 5, "where Task_Isexists = 1");
+                    await Db.PageAsync<TaskData>(page.PageNumber, page.PageSize, "where Task_Isexists = 1");
                     return new ResponseData("增加一次性任务成功", await Db.PageAsync<TaskData>(1, 5, "where Task_Isexists = 1"), StatusCode.Success);
                 // 添加定时任务
                 case "TimedTask":
@@ -62,7 +65,7 @@ namespace HnCompanyTasks.Models
                     taskData.Task_ExecuteReuslt = 0;
                     taskData.Task_Isexists = 1;
                     await Db.InsertAsync(taskData);
-                    return new ResponseData("增加定时任务成功", await Db.PageAsync<TaskData>(1, 5, "where Task_Isexists = 1"), StatusCode.Success);
+                    return new ResponseData("增加定时任务成功", await Db.PageAsync<TaskData>(page.PageNumber, page.PageSize, "where Task_Isexists = 1"), StatusCode.Success);
                 default:
                     return new ResponseData("增加任务失败，请明确任务类型", "", StatusCode.Success);
             }
@@ -81,9 +84,10 @@ namespace HnCompanyTasks.Models
                 return new ResponseData("删除的数据不存在","",StatusCode.Fail);
             }
            await Db.UpdateAsync<TaskData>("set Task_Isexists = 0 where Id = @0", id);
-            if (!await scheduler.DeleteJob(new JobKey(selectData.Task_Name)))
+            JobKey jobKey = new JobKey(selectData.Task_Name);
+            if (!await scheduler.DeleteJob(jobKey))
             {
-                return new ResponseData("删除任务失败", "", StatusCode.Fail);
+                return new ResponseData("删除任务失败，任务不存在", "", StatusCode.Fail);
             }
 
             return new ResponseData("删除任务成功", "", StatusCode.Success);
@@ -92,28 +96,57 @@ namespace HnCompanyTasks.Models
         /// 获取全部的任务
         /// </summary>
         /// <returns></returns>
-        public Task<ResponseData> GetTask()
+        public async Task<ResponseData> GetTasks(Page page)
         {
-            throw new NotImplementedException();
+            var Data = await Db.PageAsync<TaskData>(page.PageNumber, page.PageSize, "select * from Tasks where Task_IsExists=1");
+            return new ResponseData("查询成功", Data, StatusCode.Success);
         }
         /// <summary>
         /// 获取相关的任务
         /// </summary>
-        /// <param name="responseData">查询的数据</param>
+        /// <param name="page">分页</param>
+        /// <param name="taskRequestData">查询的数据</param>
         /// <returns></returns>
-        public Task<ResponseData> GetTask(ResponseData responseData)
+        public async Task<ResponseData> GetTask( Page page, TaskRequestData taskRequestData)
         {
-            throw new NotImplementedException();
+            var TaskDataMap = mapper.Map<TaskData>(taskRequestData);
+            var sql = helperFunction.SqlAssembly(TaskDataMap);
+            var Data = await Db.PageAsync<TaskData>(page.PageNumber, page.PageSize, sql);
+            return new ResponseData("查询成功", Data, StatusCode.Success);
         }
         /// <summary>
         /// 更新数据
         /// </summary>
         /// <param name="id">任务编号</param>
-        /// <param name="responseData">更新后的数据</param>
+        /// <param name="taskRequestData">更新后的数据</param>
+        /// <param name="page"></param>
         /// <returns></returns>
-        public Task<ResponseData> UpdateTask(int id, ResponseData responseData)
+        public async Task<ResponseData> UpdateTask(int id, TaskRequestData taskRequestData, Page page)
         {
-            throw new NotImplementedException();
+            var RequestData = mapper.Map<TaskData>(taskRequestData);
+            var selectData = Db.SingleOrDefault<TaskData>("where id = @0", id);
+            await scheduler.DeleteJob(new JobKey(selectData.Task_Name, selectData.Task_BusinessType));
+            if (string.IsNullOrEmpty(taskRequestData.Task_PresetTime))
+            {
+                await formalBusiness.AddOneOffTask(RequestData);
+                helperFunction.ChangeData(RequestData, selectData);
+                RequestData.Task_PresetTime = DateTime.Now.ToString("F");
+                RequestData.Task_Isexists = 1;
+                RequestData.Task_ExecuteReuslt = 0;
+                await Db.UpdateAsync(RequestData);
+                await formalBusiness.AddOneOffTask(RequestData);
+                var Data = await Db.PageAsync<TaskData>(page.PageNumber, page.PageSize, "where Task_Isexists = 1");
+                return new ResponseData("修改成功", Data, StatusCode.Success);
+            }
+            var dateTimeMap = await formalBusiness.AddTimedTask(RequestData);
+            helperFunction.ChangeData(RequestData, selectData);
+            var TimeDifference = (dateTimeMap.ExDateTime - DateTime.Now).TotalSeconds;
+            RequestData.Task_IntervalTime = helperFunction.CheckDateTime(TimeDifference);
+            RequestData.Task_ExecuteReuslt = 0;
+            RequestData.Task_Isexists = 1;
+            await Db.UpdateAsync(RequestData);
+            var Data1 = await Db.PageAsync<TaskData>(page.PageNumber, page.PageSize, "where Task_Isexists = 1");
+            return new ResponseData("修改成功", Data1, StatusCode.Success);
         }
     }
 }

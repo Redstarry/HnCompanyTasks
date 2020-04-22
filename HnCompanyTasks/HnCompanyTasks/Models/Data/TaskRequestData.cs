@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PetaPoco;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,10 +8,11 @@ namespace HnCompanyTasks.Models.Data
 {
     public class TaskRequestData
     {
-        /// <summary>
-        /// 任务ID 操作使用
-        /// </summary>
-        public int Id { get; set; }
+        ///// <summary>
+        ///// 任务ID 操作使用
+        ///// </summary>
+        //[Ignore]
+        //private int Id { get; set; }
         /// <summary>
         /// 任务名字
         /// </summary>
@@ -35,5 +37,6 @@ namespace HnCompanyTasks.Models.Data
         /// 描述
         /// </summary>
         public string Task_Describe { get; set; }
+        public int Task_ExecuteReuslt { get; set; }
     }
 }

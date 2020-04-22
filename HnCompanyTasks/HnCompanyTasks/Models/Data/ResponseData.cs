@@ -14,6 +14,7 @@ namespace HnCompanyTasks.Models.Data
         {
             this.Message = Message;
             this.Response = Response;
+            Status = status;
         }
     }
 }

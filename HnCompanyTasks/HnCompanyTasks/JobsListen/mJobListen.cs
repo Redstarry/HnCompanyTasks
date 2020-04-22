@@ -35,7 +35,15 @@ namespace HnCompanyTasks.JobsListen
         public Task JobWasExecuted(IJobExecutionContext context, JobExecutionException jobException, CancellationToken cancellationToken = default)
         {
             var ExDate = TimeZoneInfo.ConvertTime(context.FireTimeUtc, TimeZoneInfo.Local).ToString("F");
-            Db.Update<TaskData>("set Task_ExecuteReuslt = @0, Task_LastExecuteTime = @1 where Task_Name = @2", 1,ExDate, context.JobDetail.Key.Name);
+            if (context.NextFireTimeUtc == null)
+            {
+                Db.Update<TaskData>("set Task_ExecuteReuslt = @0, Task_LastExecuteTime = @1 where Task_Name = @2", 1, ExDate, context.JobDetail.Key.Name);
+            }
+            var nextDate = TimeZoneInfo.ConvertTime((DateTimeOffset)context.NextFireTimeUtc, TimeZoneInfo.Local).ToString("F");
+            Sql sql = Sql.Builder
+                .Set("Task_PresetTime = @0, Task_LastExecuteTime = @1, Task_ExecuteReuslt = 1", nextDate, ExDate)
+                .Where("Task_Name = @0", context.JobDetail.Key.Name);
+            Db.Update<TaskData>(sql);
             return Task.Run(()=> {
                 
                 Console.WriteLine($"任务：{context.JobDetail.Key.Name} 已执行， 数据已更新");

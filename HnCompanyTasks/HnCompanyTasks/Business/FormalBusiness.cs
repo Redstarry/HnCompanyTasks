@@ -30,7 +30,7 @@ namespace HnCompanyTasks.Business
                 .StartNow()
                 .Build();
             var jobDetail = JobBuilder.Create<Job>()
-                .WithIdentity(taskData.Task_Name, "group1")
+                .WithIdentity(taskData.Task_Name)
                 .Build();
 
             await scheduler.ScheduleJob(jobDetail, trigger);
@@ -39,16 +39,19 @@ namespace HnCompanyTasks.Business
 
             return timeClass;
         }
+        
         public async Task<DateTimeClass> AddTimedTask(TaskData taskData)
         {
             scheduler = await _schedulerFactory.GetScheduler();
             await scheduler.Start();
             var trigger = TriggerBuilder.Create()
                 //.WithCronSchedule(taskData.Task_PresetTime, p => p.InTimeZone(TimeZoneInfo.Local))
+                .WithSimpleSchedule(x=>x.WithIntervalInSeconds(int.Parse(taskData.Task_Interval)).RepeatForever())
                 .StartAt( Convert.ToDateTime( taskData.Task_PresetTime))
                 .Build();
             var jobDetail = JobBuilder.Create<Job>()
-                .WithIdentity(taskData.Task_Name, "group2")
+                .WithIdentity(taskData.Task_Name)
+                .UsingJobData("Business", taskData.Task_BusinessType)
                 .Build();
             await scheduler.ScheduleJob(jobDetail, trigger);
             scheduler.ListenerManager.AddJobListener(new mJobListen());
