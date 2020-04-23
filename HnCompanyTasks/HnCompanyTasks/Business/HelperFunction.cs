@@ -74,11 +74,11 @@ namespace HnCompanyTasks.Business
                 {
                     selectSql.Append("and Task_Interval like @0", "%" + taskDataMap.Task_Interval + "%");
                 }
-                //间隔时间
-                if (!string.IsNullOrEmpty(taskDataMap.Task_IntervalTime))
-                {
-                    selectSql.Append("and Task_Interval like @0", "%" + taskDataMap.Task_IntervalTime + "%");
-                }
+                ////间隔时间
+                //if (!string.IsNullOrEmpty(taskDataMap.Task_IntervalTime))
+                //{
+                //    selectSql.Append("and Task_Interval like @0", "%" + taskDataMap.Task_IntervalTime + "%");
+                //}
                 
             }
 
@@ -89,27 +89,35 @@ namespace HnCompanyTasks.Business
             }
             return selectSql;
         }
-
-        public TaskData ChangeData(TaskData RequestData, TaskData selectData)
+        /// <summary>
+        /// 更新赋值
+        /// </summary>
+        /// <param name="selectData">要更新的数据</param>
+        /// <param name="updateRequestData">更新的内容</param>
+        /// <returns></returns>
+        public TaskData ChangeData(TaskData selectData, UpdateRequestData updateRequestData)
         {
-            if (string.IsNullOrEmpty(RequestData.Task_Name))
+            if (!string.IsNullOrEmpty(updateRequestData.Task_Name)) selectData.Task_Name = updateRequestData.Task_Name;
+            if (!string.IsNullOrEmpty(updateRequestData.Task_BusinessType)) selectData.Task_BusinessType = updateRequestData.Task_BusinessType;
+            if (!string.IsNullOrEmpty(updateRequestData.Task_PresetTime)) selectData.Task_PresetTime = updateRequestData.Task_PresetTime;
+            if (!string.IsNullOrEmpty(updateRequestData.Task_Interval)) selectData.Task_Interval = updateRequestData.Task_Interval;
+            if (!string.IsNullOrEmpty(updateRequestData.Task_Describe)) selectData.Task_Describe = updateRequestData.Task_Describe;
+            return selectData;
+        }
+        public bool CheckDataIsUpdate(TaskData selectData)
+        {
+            if (selectData.Task_Isexists == 0) return false;
+            if (selectData.Task_TaskType == "OneOff" && selectData.Task_ExecuteReuslt == 1) return false;
+            return true;
+        }
+        public List<int> ConversionTime(string Date)
+        {
+            List<int> TimeSpanDate = new List<int>();
+            foreach (var item in Date.Split(":"))
             {
-                RequestData.Task_Name = selectData.Task_Name;
+                TimeSpanDate.Add(Convert.ToInt32(item));
             }
-            if (string.IsNullOrEmpty(RequestData.Task_TaskType))
-            {
-                RequestData.Task_TaskType = selectData.Task_TaskType;
-            }
-            if (string.IsNullOrEmpty(RequestData.Task_BusinessType))
-            {
-                RequestData.Task_BusinessType = selectData.Task_BusinessType;
-            }
-            if (string.IsNullOrEmpty(RequestData.Task_Describe))
-            {
-                RequestData.Task_Describe = selectData.Task_Describe;
-            }
-            RequestData.Task_CreateTime = selectData.Task_CreateTime;
-            return RequestData;
+            return TimeSpanDate;
         }
     }
 }

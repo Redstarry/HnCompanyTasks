@@ -11,6 +11,14 @@
             <param name="Seconds"></param>
             <returns></returns>
         </member>
+        <member name="M:HnCompanyTasks.Business.HelperFunction.ChangeData(HnCompanyTasks.Models.TaskData,HnCompanyTasks.Models.Data.UpdateRequestData)">
+            <summary>
+            更新赋值
+            </summary>
+            <param name="selectData">要更新的数据</param>
+            <param name="updateRequestData">更新的内容</param>
+            <returns></returns>
+        </member>
         <member name="M:HnCompanyTasks.Controllers.TasksController.GetTaskAll(ContactsAPI.Models.PageModel.Page)">
             <summary>
             获取全部数据
@@ -34,12 +42,12 @@
             <param name="taskRequestData">查询的数据</param>
             <returns></returns>
         </member>
-        <member name="M:HnCompanyTasks.Controllers.TasksController.update(System.Int32,HnCompanyTasks.Models.Data.TaskRequestData,ContactsAPI.Models.PageModel.Page)">
+        <member name="M:HnCompanyTasks.Controllers.TasksController.update(System.Int32,HnCompanyTasks.Models.Data.UpdateRequestData,ContactsAPI.Models.PageModel.Page)">
             <summary>
             更新数据
             </summary>
             <param name="id">任务编号</param>
-            <param name="taskRequestData">更新后的信息</param>
+            <param name="updateRequestData">更新后的信息</param>
             <param name="page">分页</param>
             <returns></returns>
         </member>
@@ -49,6 +57,11 @@
             </summary>
             <param name="id">任务编号</param>
             <returns></returns>
+        </member>
+        <member name="P:HnCompanyTasks.Models.Data.TaskRequestData.Id">
+            <summary>
+            任务ID 操作使用
+            </summary>
         </member>
         <member name="P:HnCompanyTasks.Models.Data.TaskRequestData.Task_Name">
             <summary>
@@ -76,6 +89,31 @@
             </summary>
         </member>
         <member name="P:HnCompanyTasks.Models.Data.TaskRequestData.Task_Describe">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.Data.UpdateRequestData.Task_Name">
+            <summary>
+            任务名字
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.Data.UpdateRequestData.Task_BusinessType">
+            <summary>
+            业务类型
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.Data.UpdateRequestData.Task_PresetTime">
+            <summary>
+            预定时间
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.Data.UpdateRequestData.Task_Interval">
+            <summary>
+            间隔时间
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.Data.UpdateRequestData.Task_Describe">
             <summary>
             描述
             </summary>
@@ -115,11 +153,6 @@
             时间间隔
             </summary>
         </member>
-        <member name="P:HnCompanyTasks.Models.TaskData.Task_IntervalTime">
-            <summary>
-            间隔时间
-            </summary>
-        </member>
         <member name="P:HnCompanyTasks.Models.TaskData.Task_LastExecuteTime">
             <summary>
             最后执行时间
@@ -148,12 +181,12 @@
             <param name="page"></param>
             <returns></returns>
         </member>
-        <member name="M:HnCompanyTasks.Models.ITasksServer.UpdateTask(System.Int32,HnCompanyTasks.Models.Data.TaskRequestData,ContactsAPI.Models.PageModel.Page)">
+        <member name="M:HnCompanyTasks.Models.ITasksServer.UpdateTask(System.Int32,HnCompanyTasks.Models.Data.UpdateRequestData,ContactsAPI.Models.PageModel.Page)">
             <summary>
             更新数据
             </summary>
             <param name="id">数据的编号</param>
-            <param name="taskRequestData">更新后的内容</param>
+            <param name="updateRequestData">更新后的内容</param>
             <param name="page"></param>
             <returns></returns>
         </member>
@@ -207,12 +240,12 @@
             <param name="taskRequestData">查询的数据</param>
             <returns></returns>
         </member>
-        <member name="M:HnCompanyTasks.Models.TasksServer.UpdateTask(System.Int32,HnCompanyTasks.Models.Data.TaskRequestData,ContactsAPI.Models.PageModel.Page)">
+        <member name="M:HnCompanyTasks.Models.TasksServer.UpdateTask(System.Int32,HnCompanyTasks.Models.Data.UpdateRequestData,ContactsAPI.Models.PageModel.Page)">
             <summary>
             更新数据
             </summary>
             <param name="id">任务编号</param>
-            <param name="taskRequestData">更新后的数据</param>
+            <param name="updateRequestData">更新后的数据</param>
             <param name="page"></param>
             <returns></returns>
         </member>

@@ -58,13 +58,13 @@ namespace HnCompanyTasks.Controllers
         /// 更新数据
         /// </summary>
         /// <param name="id">任务编号</param>
-        /// <param name="taskRequestData">更新后的信息</param>
+        /// <param name="updateRequestData">更新后的信息</param>
         /// <param name="page">分页</param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> update( int id , TaskRequestData taskRequestData, [FromQuery]Page page)
+        public async Task<IActionResult> update( int id , UpdateRequestData updateRequestData, [FromQuery]Page page)
         {
-            return Ok(await tasksServer.UpdateTask(id, taskRequestData, page));
+            return Ok(await tasksServer.UpdateTask(id, updateRequestData, page));
         }
         /// <summary>
         /// 删除任务

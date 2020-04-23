@@ -35,13 +35,16 @@ namespace HnCompanyTasks.JobsListen
         public Task JobWasExecuted(IJobExecutionContext context, JobExecutionException jobException, CancellationToken cancellationToken = default)
         {
             var ExDate = TimeZoneInfo.ConvertTime(context.FireTimeUtc, TimeZoneInfo.Local).ToString("F");
-            if (context.NextFireTimeUtc == null)
-            {
-                Db.Update<TaskData>("set Task_ExecuteReuslt = @0, Task_LastExecuteTime = @1 where Task_Name = @2", 1, ExDate, context.JobDetail.Key.Name);
-            }
-            var nextDate = TimeZoneInfo.ConvertTime((DateTimeOffset)context.NextFireTimeUtc, TimeZoneInfo.Local).ToString("F");
+            //if (context.NextFireTimeUtc == null)
+            //{
+            //    Db.Update<TaskData>("set Task_ExecuteReuslt = 1, Task_LastExecuteTime = @0 where Task_Name = @1", ExDate, context.JobDetail.Key.Name);
+            //}
+            var UTCNextDate = context.NextFireTimeUtc;
+            var UTCProDate = context.PreviousFireTimeUtc;
+            //var NextDate = UTCProDate != null ? TimeZoneInfo.ConvertTime((DateTimeOffset)context.PreviousFireTimeUtc, TimeZoneInfo.Local).ToString("F") : ExDate;
+            var prevDate = UTCProDate != null ? TimeZoneInfo.ConvertTime((DateTimeOffset)context.PreviousFireTimeUtc, TimeZoneInfo.Local).ToString("F") : ExDate;
             Sql sql = Sql.Builder
-                .Set("Task_PresetTime = @0, Task_LastExecuteTime = @1, Task_ExecuteReuslt = 1", nextDate, ExDate)
+                .Set("Task_PresetTime = @0, Task_LastExecuteTime = @1, Task_ExecuteReuslt = 1", ExDate, prevDate)
                 .Where("Task_Name = @0", context.JobDetail.Key.Name);
             Db.Update<TaskData>(sql);
             return Task.Run(()=> {

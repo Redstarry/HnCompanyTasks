@@ -13,6 +13,7 @@ namespace HnCompanyTasks.Models
         /// <summary>
         /// 任务编号
         /// </summary>
+        
         public int Id { get; set; }
         /// <summary>
         /// 任务名字
@@ -38,10 +39,10 @@ namespace HnCompanyTasks.Models
         /// 时间间隔
         /// </summary>
         public string Task_Interval { get; set; }
-        /// <summary>
-        /// 间隔时间
-        /// </summary>
-        public string Task_IntervalTime { get; set; }
+        ///// <summary>
+        ///// 间隔时间
+        ///// </summary>
+        ////public string Task_IntervalTime { get; set; }
         /// <summary>
         /// 最后执行时间
         /// </summary>

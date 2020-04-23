@@ -20,10 +20,10 @@ namespace HnCompanyTasks.Models
         /// 更新数据
         /// </summary>
         /// <param name="id">数据的编号</param>
-        /// <param name="taskRequestData">更新后的内容</param>
+        /// <param name="updateRequestData">更新后的内容</param>
         /// <param name="page"></param>
         /// <returns></returns>
-        Task<ResponseData> UpdateTask(int id, TaskRequestData taskRequestData, Page page);
+        Task<ResponseData> UpdateTask(int id, UpdateRequestData updateRequestData, Page page);
         /// <summary>
         /// 获取全部任务
         /// </summary>

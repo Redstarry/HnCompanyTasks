@@ -1,25 +1,16 @@
-﻿using PetaPoco;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace HnCompanyTasks.Models.Data
 {
-    public class TaskRequestData
+    public class UpdateRequestData
     {
-        /// <summary>
-        /// 任务ID 操作使用
-        /// </summary>
-        private int Id { get; set; }
         /// <summary>
         /// 任务名字
         /// </summary>
         public string Task_Name { get; set; }
-        /// <summary>
-        /// 任务类型
-        /// </summary>
-        public string Task_TaskType { get; set; }
         /// <summary>
         /// 业务类型
         /// </summary>
@@ -36,6 +27,5 @@ namespace HnCompanyTasks.Models.Data
         /// 描述
         /// </summary>
         public string Task_Describe { get; set; }
-        public int Task_ExecuteReuslt { get; set; }
     }
 }
