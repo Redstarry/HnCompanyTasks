@@ -12,6 +12,7 @@ namespace HnCompanyTasks.JobsListen
     public class mJobListen : IJobListener
     {
         private Database Db;
+        static object LockData = new object();
         public mJobListen()
         {
             Db = new Database("server = .;database = TaskInfo;uid = sa; pwd = 123", "System.Data.SqlClient", null);
@@ -46,10 +47,14 @@ namespace HnCompanyTasks.JobsListen
             Sql sql = Sql.Builder
                 .Set("Task_PresetTime = @0, Task_LastExecuteTime = @1, Task_ExecuteReuslt = 1", ExDate, prevDate)
                 .Where("Task_Name = @0", context.JobDetail.Key.Name);
-            Db.Update<TaskData>(sql);
+            
             return Task.Run(()=> {
+                lock (LockData)
+                {
+                    Db.Update<TaskData>(sql);
+                    Console.WriteLine($"任务：{context.JobDetail.Key.Name} 已执行， 数据已更新");
+                }
                 
-                Console.WriteLine($"任务：{context.JobDetail.Key.Name} 已执行， 数据已更新");
             });
             
             

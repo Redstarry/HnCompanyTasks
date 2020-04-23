@@ -46,7 +46,7 @@ namespace HnCompanyTasks.Models
             var NameIsExists = Db.SingleOrDefault<TaskData>("where Task_Name = @0", taskData.Task_Name);
             var TimeSpanDate = Convert.ToDateTime(taskRequestData.Task_PresetTime) - DateTime.Now;
             if (NameIsExists != null) return new ResponseData("任务名，已存在", "" , StatusCode.Fail);
-            if (Convert.ToInt32(TimeSpanDate) < 0) return new ResponseData("执行时间 必须大于 当前时间", "" , StatusCode.Fail);
+            if (Convert.ToInt32(TimeSpanDate.Seconds) < 0) return new ResponseData("执行时间 必须大于 当前时间", "" , StatusCode.Fail);
             switch (taskData.Task_TaskType)
             {
                 // 添加一次性任务

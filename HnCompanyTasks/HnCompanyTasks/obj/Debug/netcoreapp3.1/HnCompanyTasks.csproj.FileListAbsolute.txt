@@ -198,7 +198,6 @@ D:\GitHub\HnCompanyTasks\HnCompanyTasks\HnCompanyTasks\bin\Debug\netcoreapp3.1\n
 D:\GitHub\HnCompanyTasks\HnCompanyTasks\HnCompanyTasks\bin\Debug\netcoreapp3.1\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 D:\GitHub\HnCompanyTasks\HnCompanyTasks\HnCompanyTasks\obj\Debug\netcoreapp3.1\HnCompanyTasks.MvcApplicationPartsAssemblyInfo.cs
 D:\GitHub\HnCompanyTasks\HnCompanyTasks\HnCompanyTasks\obj\Debug\netcoreapp3.1\HnCompanyTasks.MvcApplicationPartsAssemblyInfo.cache
-D:\GitHub\HnCompanyTasks\HnCompanyTasks\HnCompanyTasks\obj\Debug\netcoreapp3.1\HnCompanyTasks.csprojAssemblyReference.cache
 F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\bin\Debug\netcoreapp3.1\netcoreapp3.1\appsettings.Development.json
 F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\bin\Debug\netcoreapp3.1\netcoreapp3.1\appsettings.json
 F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\bin\Debug\netcoreapp3.1\netcoreapp3.1\Properties\launchSettings.json
@@ -305,3 +304,5 @@ F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\bin\Debug\netcoreapp3.1\netcoreapp
 F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\obj\Debug\netcoreapp3.1\HnCompanyTasks.MvcApplicationPartsAssemblyInfo.cs
 F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\obj\Debug\netcoreapp3.1\HnCompanyTasks.MvcApplicationPartsAssemblyInfo.cache
 F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\obj\Debug\netcoreapp3.1\HnCompanyTasks.csprojAssemblyReference.cache
+D:\GitHub\HnCompanyTasks\HnCompanyTasks\HnCompanyTasks\bin\Debug\netcoreapp3.1\netcoreapp3.1\AutoMapper.dll
+D:\GitHub\HnCompanyTasks\HnCompanyTasks\HnCompanyTasks\bin\Debug\netcoreapp3.1\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
