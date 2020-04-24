@@ -87,15 +87,13 @@ namespace HnCompanyTasks.Models
             var selectData = Db.SingleOrDefault<TaskData>("where id = @0", id);
             if (selectData == null)
             {
-                return new ResponseData("删除的数据不存在","",StatusCode.Fail);
+                return new ResponseData("删除的数据不存在", "", StatusCode.Fail);
             }
-           await Db.UpdateAsync<TaskData>("set Task_Isexists = 0 where Id = @0", id);
             JobKey jobKey = new JobKey(selectData.Task_Name);
-            if (!await scheduler.DeleteJob(jobKey))
-            {
-                return new ResponseData("删除任务失败，任务不存在", "", StatusCode.Fail);
-            }
-
+            await scheduler.DeleteJob(jobKey);
+            
+            await Db.UpdateAsync<TaskData>("set Task_Isexists = 0 where Id = @0", id);
+            //var Data1 = Db.Page<TaskData>(page.PageNumber, page.PageSize, "where Task_Isexists = 1");
             return new ResponseData("删除任务成功", "", StatusCode.Success);
         }
         /// <summary>

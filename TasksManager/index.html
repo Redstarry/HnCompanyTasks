@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/index.css">
+    <script src="./js/jquery-3.5.0.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <title>调度任务管理器</title>
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+            <!-- 标题 -->
+            <h1 class="text-center pt-4 pb-4">调度任务管理器</h1>
+            <!-- 查询条件 -->
+            <div class="row pb-3">
+                <div class="col-4">
+                    <span>编&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号 : </span>
+                    <input type="text" style="width: 154px;">
+                </div>
+                
+                <div class="col-3">
+                    <span>执行状态 : </span>
+                    <select name="" id="" style="width: 100px; height: 28px;">
+                        <option value="否">否</option>
+                        <option value="是">是</option>
+                    </select>
+                </div>
+                <div class="col-5">
+                    <span>创建时间 : </span>
+                    <input type="datetime-local" value = "2020-04-24T10:56:01" style="width: 212px;">
+                    <span>-</span>
+                    <input type="datetime-local" value="2020-04-24T10:56:01" style="width: 212px;">
+                </div>
+                
+            </div>
+            <div class="row pb-3">
+                <div class="col-4">
+                    <span>任务名称 : </span>
+                    <input type="text" name="" id="" style="width: 154px;">
+                </div>
+                <div class="col-3">
+                    <span>任务类型 : </span>
+                    <select name="" id="" style="width: 100px; height: 28px;">
+                        <option value="OneOff">OneOff</option>
+                        <option value="TimedTask">TimedTask</option>
+                    </select>
+                </div>
+                <div class="col-5">
+                    <span>执行时间 : </span>
+                    <input type="datetime-local" value = "2020-04-24T10:56:01" style="width: 212px;">
+                    <span>-</span>
+                    <input type="datetime-local" value="2020-04-24T10:56:01" style="width: 212px;">
+                </div>
+            </div>
+            <!-- 确定按钮 -->
+            <div class="row pb-3">
+                <div class="col-6">
+                    <button class="btn btn-primary" @click="AddBtn">新增</button>
+                </div>
+                <div class="col-6 text-right">
+                    <button class="btn btn-success">查询</button>
+                </div>
+            </div>
+            <!-- 表格 -->
+            <div class="row tableData">
+                <table class="table table-bordered table-striped text-center">
+                    <thead> 
+                        <tr class = "table-primary">
+                            <th>编号</th>
+                            <th>任务名称</th>
+                            <th>任务类型</th>
+                            <th>业务类型</th>
+                            <th>创建时间</th>
+                            <th>执行时间</th>
+                            <th>执行间隔</th>
+                            <th>最后的执行时间</th>
+                            <th>执行状态</th>
+                            <th>备注</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in showData">
+                            <td class="id">{{item.id}}</td>
+                            <td class="name">{{item.task_Name}}</td>
+                            <td class="taskType">{{item.task_TaskType}}</td>
+                            <td class="BusinessType">{{item.task_BusinessType}}</td>
+                            <td class="CreateTime">{{item.task_CreateTime}}</td>
+                            <td class="PreseTime">{{item.task_PresetTime}}</td>
+                            <td class="Interval">{{item.task_Interval}}</td>
+                            <td class="LastExecuteTime1">{{item.task_LastExecuteTime}}</td>
+                            <td v-if="item.task_ExecuteReuslt==0" class="Exists">未执行</td>
+                            <td v-else class="Exists">已执行</td>
+                            <td class="Describe">{{item.task_Describe}}</td>
+                            <td class="btnZu">
+                                <button class="btn btn-warning" onclick="updateData.call(this)">更新</button>
+                                <button class="btn btn-danger" onclick="removeData.call(this)">删除</button>
+                            </td>
+                        </tr> 
+                    </tbody>
+                </table>
+            </div>
+            <!-- 组件 -->
+            <div class="row">
+                <!-- <div class="col-4"></div> -->
+                <div class="col-12 text-center">
+                    <ul class="pagination page" style="display: inline-flex;">
+                        <li class="page-item disabled preLi"><a href="#" class="page-link prev">上一页</a></li>
+                        <!-- <li class="page-item active firstPage pageNum" v-for="count in Number1"><a href="#" class="page-link">{{count}}</a></li> -->
+                        <li class="page-item pageNum" v-for="count in Number1" ><a href="#" class="page-link">{{count}}</a></li>
+                        <li class="page-item"><a href="#" class="page-link next">下一页</a></li>
+                    </ul>
+                </div>
+                <!-- <div class="col-4"></div> -->
+            </div>
+            
+        </div>
+        <div class="mask" v-if="IsShow">
+            
+            <div class="container addInterface">
+                <h2 class="text-center pt-4 pb-4">添加任务</h2>
+                <div class="row pb-2">
+                    <div class="col-6 ">
+                        <span>任务名称 : </span>
+                        <input type="text" name="" id="" style="width: 154px;">
+                        
+                    </div>
+                    <div class="col-6 ">
+                        <span>任务类型 : </span>
+                        <select name="" id="" style="width: 100px; height: 28px;">
+                            <option value="OneOff">OneOff</option>
+                            <option value="TimedTask">TimedTask</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- 执行时间和创建时间 -->
+                <div class="row pb-2 pt-2">
+                    <div class="col-6">
+                        <span>创建时间 : </span>
+                        <input type="datetime-local" value = "2020-04-24T10:56:01" style="width: 212px;">
+                    </div>
+                    <div class="col-6">
+                        <span>执行时间 : </span>
+                        <input type="datetime-local" v-bind:value = "CurDate" style="width: 212px;">
+                    </div>
+                </div>
+                <!-- 执行间隔 -->
+                <div class="row">
+                    <div class="col-12">
+                        <span>执行间隔 : </span>
+                        <input type="text" style="width: 70px; height: 24px; text-align: center;">
+                        <span>天,</span>
+                        <select name="" id="">
+                            <option v-for="hour in HoursData" :value="hour" >{{hour}}</option>
+                        </select>
+                        <span>时,</span>
+                        <select name="" id="">
+                            <option v-for="min in Minutes" :value="min" >{{min}}</option>
+                        </select>
+                        <span>分,</span>
+                        <select name="" id="">
+                            <option v-for="min in Minutes" :value="min" >{{min}}</option>
+                        </select>
+                        <span>秒</span>
+                    </div>
+                </div>
+                <!-- 业务类型 -->
+                <div class="row pt-2 pb-2">
+                    <div class="col-12">
+                        <span>业务类型 : {{CurDate}}</span>
+                        <input type="text" style="width: 650px;">
+                    </div>
+                </div>
+                <!-- 描述 -->
+                <div class="row">
+                    <div class="col-12">
+                        <span>描述</span>
+                        <br>
+                        <textarea name="" id="" cols="87" rows="5" style="resize: none;"></textarea>
+                    </div>
+                </div>
+                <!-- 按钮 -->
+                <div class="row text-center">
+                    <div class="col-6">
+                        <button class="btn btn-success">确定</button>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-danger" @click="MaskCancel">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script src="./js/Ajax.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+*
+{
+    margin:0;
+    padding:0;
+}
+body
+{
+    line-height: 2;
+    
+}
+#app
+{
+    position: relative;
+
+}
+#app .container
+{
+    max-width: 1700px;
+}
+
+#app .mask
+{
+    position: fixed;
+    top:0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background:rgba(0,0,0,.5);
+    z-index: 3;
+}
+
+#app .mask .addInterface
+{
+    width: 680px;
+    height: 560px;
+    background-color: aliceblue;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}

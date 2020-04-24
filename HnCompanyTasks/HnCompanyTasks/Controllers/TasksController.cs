@@ -70,6 +70,7 @@ namespace HnCompanyTasks.Controllers
         /// 删除任务
         /// </summary>
         /// <param name="id">任务编号</param>
+        /// <param name="page"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> delete(int id)
