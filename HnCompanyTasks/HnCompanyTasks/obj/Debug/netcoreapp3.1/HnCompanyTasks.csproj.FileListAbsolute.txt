@@ -306,3 +306,4 @@ F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\obj\Debug\netcoreapp3.1\HnCompanyT
 F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\obj\Debug\netcoreapp3.1\HnCompanyTasks.csprojAssemblyReference.cache
 D:\GitHub\HnCompanyTasks\HnCompanyTasks\HnCompanyTasks\bin\Debug\netcoreapp3.1\netcoreapp3.1\AutoMapper.dll
 D:\GitHub\HnCompanyTasks\HnCompanyTasks\HnCompanyTasks\bin\Debug\netcoreapp3.1\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+D:\GitHub\HnCompanyTasks\HnCompanyTasks\HnCompanyTasks\obj\Debug\netcoreapp3.1\HnCompanyTasks.csprojAssemblyReference.cache

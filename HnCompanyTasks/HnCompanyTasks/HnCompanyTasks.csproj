@@ -26,5 +26,7 @@
     <Folder Include="PageInfo\" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="https://raw.githubusercontent.com/Neotys-Labs/neoload-cli/master/resources/as-code.latest.schema.json" /></VisualStudio></ProjectExtensions>
+
 
 </Project>
