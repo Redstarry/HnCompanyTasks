@@ -4,7 +4,7 @@ var currentPage = null;
 //一页的数量
 var itemsPerPage = null;
 //总页数
-var totalPages = null;
+var totalPages = 2;
 //总数量
 var totalItems = null;
 var Hours = new Array();
@@ -15,6 +15,15 @@ for (let index = 0; index < 24; index++) {
 for (let index = 0; index < 60; index++) {
 	minutes[index] = index;
 }
+var app;
+// var GetData = function(response) {
+// 	data = response["response"];
+// 	currentPage = data["currentPage"];
+// 	itemsPerPage = data["itemsPerPage"];
+// 	totalPages = data["totalPages"];
+// 	if(totalPages == 0) totalPages = 1;
+// 	totalItems = data["totalItems"];
+// };
 // 请求全部数据
 (function() {
 	$.ajax({
@@ -27,13 +36,18 @@ for (let index = 0; index < 60; index++) {
 			currentPage = data["currentPage"];
 			itemsPerPage = data["itemsPerPage"];
 			totalPages = data["totalPages"];
+			if(totalPages == 0) totalPages = 1;
 			totalItems = data["totalItems"];
+			// window.localStorage.setItem("data",response["response"]);
 		}
+		
 	});
 })();
+console.log(window.localStorage.getItem("data"))
+// GetData();
 
 // 用Vue更新数据
-var app = new Vue({
+app = new Vue({
 	el: "#app",
 	data: {
 		showData: data["items"],
@@ -41,61 +55,111 @@ var app = new Vue({
 		HoursData: Hours,
 		Minutes: minutes,
 		IsShow: false,
-		TaskName: '',
-		TaskType: '',
-		IntervalD: '',
-		IntervalH: '',
-		IntervalM: '',
-		IntervalS: '',
-		BuinessType: '',
-		Des: ''
+		MaskTitle:"",
+		sendUrl:"",
+		sendType:"",
+		MaskTaskName: '',
+		MaskTaskType: '',
+		MaskIntervalD: '',
+		MaskIntervalH: '',
+		MaskIntervalM: '',
+		MaskIntervalS: '',
+		MaskBuinessType: '',
+		MaskDes: '',
+		Maskval:"",
+		MaskIsDisable:false,
+		SelectId:"",
+		SelectTaskName:"",
+		SelectTaskStatus:"",
+		SelectTaskType:"",
+		SelectCreateStartTime:"",
+		SelectCreateEndTime:"",
+		SelectExStartTime:"",
+		SelectExEndTime:""
 	},
 	methods: {
 		MaskCancel: function(params) {
 			this.IsShow = !this.IsShow;
+			this.MaskIsDisable = false;
+			this.sendUrl = "";
+			this.MaskTitle="";
+			this.sendType="";
+			this.MaskTaskName="";
+			this.MaskTaskType="";
+			this.MaskIntervalD="";
+			this.MaskIntervalH="";
+			this.MaskIntervalM="";
+			this.MaskIntervalS="";
+			this.MaskBuinessType="";
+			this.MaskDes = "";
+			this.Maskval = "";
 		},
 		AddBtn: function(params) {
+			this.MaskTitle = "添加任务";
+			this.sendType = "post";
+			this.sendUrl = "http://192.168.1.47:5000/api/Tasks/task";
 			this.IsShow = !this.IsShow;
+			var CurrentDateLong = new Date();
+			var month = CurrentDateLong.getMonth() + 1;
+			if( month < 10) month = "0" + month;
+			var CurDate = CurrentDateLong.getDate();
+			if( CurDate < 10) CurDate = "0" + CurDate;
+			var hoursTime = CurrentDateLong.getHours();
+			if( hoursTime < 10) hoursTime = "0" + hoursTime;
+			var min = CurrentDateLong.getMinutes();
+			if( min < 10) min = "0" + min;
+			var second = CurrentDateLong.getSeconds();
+			if( second < 10) second = "0" + second;
+			var CurrentDate = CurrentDateLong.getFullYear() + "-" + month  + "-" + CurDate + "T" + hoursTime + ":" + min + ":" + second;
+			this.Maskval = CurrentDate;
+		},
+		SelectBtn: function(params) {
+			$.ajax({
+				async:false,
+				type: "post",
+				url: "http://192.168.1.47:5000/api/Tasks",
+				data: JSON.stringify({
+					"Task_Name":this.SelectTaskName,
+					"Task_TaskType":this.SelectTaskType,
+					"Task_ExecuteReuslt":this.SelectTaskStatus,
+					"CreatTimeStart":this.SelectCreateStartTime,
+					"CreatTimeEnd":this.SelectCreateEndTime,
+					"TaskPresetTimeStart":this.SelectExStartTime,
+					"TaskPresetTimeEnd":this.SelectExEndTime
+				}),
+				contentType: "application/json;charset=utf-8",
+				success: function (response) {
+					data = response["response"];
+					currentPage = data["currentPage"];
+					itemsPerPage = data["itemsPerPage"];
+					totalPages = data["totalPages"];
+					totalItems = data["totalItems"];
+				}
+			});
 		},
 		sendAddAjax: function() {
-			var ExDate = $(".ExDate").val().split("-","T").join(" ");
-			var NewExDate = $(".ExDate").val().split("T");
-			// 拼接日期
-			var year = NewExDate[0].split("-");
-			var joinyear = year[0] + "年" + year[1] + "月" + year[2] + "日";
-			// 拼接时间
-			var CurrentSeconds = new Date().getSeconds();
-			if(CurrentSeconds < 10)
-			{
-				CurrentSeconds = "0" + CurrentSeconds;
-			}
-			var SplitTime = NewExDate[1] + ":" + CurrentSeconds;
-			//拼接日期和时间
-			var NewDateArry = new Array()
-			NewDateArry[0] = joinyear;
-			NewDateArry[1] = SplitTime;
-			var NewDate = NewDateArry.join(" ");
-			
-			var Interval = this.IntervalD + ":" + this.IntervalH + ":" + this.IntervalM + ":" + this.IntervalS;
-
+			var NewExDate = this.Maskval.split("T").join(" ");
+			console.log(NewExDate);
+			var Interval = this.MaskIntervalD + ":" + this.MaskIntervalH + ":" + this.MaskIntervalM + ":" + this.MaskIntervalS;
+			console.log(this.MaskTaskName)
 			$.ajax({
 				async: false,
-				type: "post",
-				url: "http://192.168.1.47:5000/api/Tasks/task",
+				type: app.sendType,
+				url: app.sendUrl,
 				contentType: "application/json;charset=utf-8",
 				data: JSON.stringify({
-					"Task_Name": this.TaskName,
-					"Task_TaskType": this.TaskType,
-					"Task_BusinessType": this.BuinessType,
-					"Task_PresetTime": NewDate,
+					"Task_Name": this.MaskTaskName,
+					"Task_TaskType": this.MaskTaskType,
+					"Task_BusinessType": this.MaskBuinessType,
+					"Task_PresetTime": NewExDate,
 					"Task_Interval": Interval,
-					"Task_Describe": this.Des
+					"Task_Describe": this.MaskDes
 				}),
 				success: function(response) {
-					app.TaskName = '';
-					app.TaskType = '';
-					app.BuinessType = "";
-					app.Des = "";
+					app.MaskTaskName = '';
+					app.MaskTaskType = '';
+					app.MaskBuinessType = "";
+					app.MaskDes = "";
 					data = response["response"];
 					currentPage = data["currentPage"];
 					itemsPerPage = data["itemsPerPage"];
@@ -103,6 +167,7 @@ var app = new Vue({
 					totalItems = data["totalItems"];
 					app.showData = data["items"];
 					app.Number1 = parseInt(data["totalPages"]);
+					app.IsShow = false;
 				}
 			});
 		}
@@ -185,6 +250,30 @@ function removeData(params) {
 	app.Number1 = parseInt(data["totalPages"]);
 
 }
+// 更新数据的事件
+function updateData(params) {
+	var id = $(this).parent().parent().find(".id").html();
+	var Interval = $(this).parent().parent().find(".Interval").html();
+	var IntervalSplit = Interval.split(":");
+	var PreseTime = $(this).parent().parent().find(".PreseTime").html();
+	var ResultPreseTime = PreseTime.split(" ").join("T");
+	console.log(ResultPreseTime)
+	app.IsShow = true;
+	app.MaskTitle = "更新任务";
+	app.sendUrl = "http://192.168.1.47:5000/api/Tasks/" + id;
+	app.sendType = "put";
+	app.MaskTaskName = $(this).parent().parent().find(".name").html();
+	// app.MaskTaskType = $(this).parent().parent().find(".taskType").html();
+	app.MaskIntervalD = IntervalSplit[0];
+	app.MaskIntervalH = IntervalSplit[1];
+	app.MaskIntervalM = IntervalSplit[2];
+	app.MaskIntervalS = IntervalSplit[3];
+	app.MaskBuinessType = $(this).parent().parent().find(".BusinessType").html();
+	app.MaskDes = $(this).parent().parent().find(".Describe").html();
+	app.Maskval = ResultPreseTime;
+	app.MaskIsDisable = true;
+	console.log(app.sendUrl);
+}
 // get请求Ajax
 function GetAjax(url) {
 	$.ajax({
@@ -198,7 +287,6 @@ function GetAjax(url) {
 			itemsPerPage = data["itemsPerPage"];
 			totalPages = data["totalPages"];
 			totalItems = data["totalItems"];
-			console.log(data);
 		}
 	});
 }

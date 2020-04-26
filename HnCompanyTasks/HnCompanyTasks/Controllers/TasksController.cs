@@ -50,7 +50,7 @@ namespace HnCompanyTasks.Controllers
         /// <param name="taskRequestData">查询的数据</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> GetTask([FromQuery] Page page,[FromBody]TaskRequestData taskRequestData)
+        public async Task<IActionResult> GetTask([FromQuery] Page page,[FromBody]SelectRequestData taskRequestData)
         {
             return Ok(await tasksServer.GetTask(page, taskRequestData));
         }
@@ -70,7 +70,6 @@ namespace HnCompanyTasks.Controllers
         /// 删除任务
         /// </summary>
         /// <param name="id">任务编号</param>
-        /// <param name="page"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> delete(int id)

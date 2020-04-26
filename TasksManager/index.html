@@ -8,6 +8,8 @@
     <script src="./js/jquery-3.5.0.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="./js/vue.js"></script>
+    
     <title>调度任务管理器</title>
 </head>
 <body>
@@ -19,41 +21,41 @@
             <div class="row pb-3">
                 <div class="col-4">
                     <span>编&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号 : </span>
-                    <input type="text" style="width: 154px;">
+                    <input type="text" style="width: 154px;" v-model="SelectId">
                 </div>
                 
                 <div class="col-3">
                     <span>执行状态 : </span>
-                    <select name="" id="" style="width: 100px; height: 28px;">
+                    <select name="" id="" style="width: 100px; height: 28px;" v-model="SelectTaskStatus" >
                         <option value="否">否</option>
                         <option value="是">是</option>
                     </select>
                 </div>
                 <div class="col-5">
                     <span>创建时间 : </span>
-                    <input type="datetime-local" value = "2020-04-24T10:56:01" style="width: 212px;">
+                    <input type="datetime-local" value = "2020-04-24T10:56:01" style="width: 212px;" v-model="SelectCreateStartTime">
                     <span>-</span>
-                    <input type="datetime-local" value="2020-04-24T10:56:01" style="width: 212px;">
+                    <input type="datetime-local" value="2020-04-24T10:56:01" style="width: 212px;" v-model="SelectCreateEndTime">
                 </div>
                 
             </div>
             <div class="row pb-3">
                 <div class="col-4">
                     <span>任务名称 : </span>
-                    <input type="text" name="" id="" style="width: 154px;">
+                    <input type="text" name="" id="" style="width: 154px;" v-model="SelectTaskName">
                 </div>
                 <div class="col-3">
                     <span>任务类型 : </span>
-                    <select name="" id="" style="width: 100px; height: 28px;">
+                    <select name="" id="" style="width: 100px; height: 28px;" v-model="SelectTaskType">
                         <option value="OneOff">OneOff</option>
                         <option value="TimedTask">TimedTask</option>
                     </select>
                 </div>
                 <div class="col-5">
                     <span>执行时间 : </span>
-                    <input type="datetime-local" value = "2020-04-24T10:56:01" style="width: 212px;">
+                    <input type="datetime-local" value = "2020-04-24T10:56:01" style="width: 212px;" v-model="SelectExStartTime">
                     <span>-</span>
-                    <input type="datetime-local" value="2020-04-24T10:56:01" style="width: 212px;">
+                    <input type="datetime-local" value="2020-04-24T10:56:01" style="width: 212px;" v-model="SelectExEndTime">
                 </div>
             </div>
             <!-- 确定按钮 -->
@@ -62,7 +64,7 @@
                     <button class="btn btn-primary" @click="AddBtn">新增</button>
                 </div>
                 <div class="col-6 text-right">
-                    <button class="btn btn-success">查询</button>
+                    <button class="btn btn-success" @click="SelectBtn">查询</button>
                 </div>
             </div>
             <!-- 表格 -->
@@ -122,16 +124,16 @@
         <div class="mask" v-if="IsShow">
             
             <div class="container addInterface">
-                <h2 class="text-center pt-4 pb-4">添加任务</h2>
+                <h2 class="text-center pt-4 pb-4">{{MaskTitle}}</h2>
                 <div class="row pb-2">
                     <div class="col-4 ">
                         <span>任务名称 : </span>
-                        <input type="text" name="" id="" style="width: 100px;" v-model="TaskName">
+                        <input type="text" name="" id="" style="width: 100px;" v-model="MaskTaskName">
                         
                     </div>
                     <div class="col-6 ">
 						<span>执行时间 : </span>
-						<input type="datetime-local" style="width: 212px;" class="ExDate">
+						<input type="datetime-local" style="width: 212px;" class="ExDate" v-model="Maskval">
                         
                     </div>
                 </div>
@@ -139,24 +141,24 @@
                 <div class="row pb-2 pt-2">
                     <div class="col-4">
                         <span>任务类型 : </span>
-                        <select name="" id="" style="width: 100px; height: 28px;" v-model="TaskType">
+                        <select name="" id="" style="width: 100px; height: 28px;" v-model="MaskTaskType" :disabled = "MaskIsDisable">
                             <option value="OneOff">OneOff</option>
                             <option value="TimedTask">TimedTask</option>
                         </select>
                     </div>
 					<div class="col-8">
 						<span>执行间隔 : </span>
-						<input type="text" style="width: 70px; height: 24px; text-align: center;" v-model="IntervalD">
+						<input type="text" style="width: 70px; height: 24px; text-align: center;" v-model="MaskIntervalD">
 						<span>天,</span>
-						<select name="" id="" v-model="IntervalH">
+						<select name="" id="" v-model="MaskIntervalH">
 						    <option v-for="hour in HoursData" :value="hour">{{hour}}</option>
 						</select>
 						<span>时,</span>
-						<select name="" id=""  v-model="IntervalM">
+						<select name="" id=""  v-model="MaskIntervalM">
 						    <option v-for="min in Minutes" :value="min">{{min}}</option>
 						</select>
 						<span>分,</span>
-						<select name="" id=""  v-model="IntervalS">
+						<select name="" id=""  v-model="MaskIntervalS">
 						    <option v-for="min in Minutes" :value="min">{{min}}</option>
 						</select>
 						<span>秒</span>
@@ -167,7 +169,7 @@
                 <div class="row pt-2 pb-2">
                     <div class="col-12">
                         <span>业务类型 : </span>
-                        <input type="text" style="width: 650px;" v-model="BuinessType">
+                        <input type="text" style="width: 650px;" v-model="MaskBuinessType">
                     </div>
                 </div>
                 <!-- 描述 -->
@@ -175,7 +177,7 @@
                     <div class="col-12">
                         <span>描述</span>
                         <br>
-                        <textarea name="" id="" cols="87" rows="5" style="resize: none;" v-model="Des"></textarea>
+                        <textarea name="" id="" cols="87" rows="5" style="resize: none;" v-model="MaskDes"></textarea>
                     </div>
                 </div>
                 <!-- 按钮 -->
@@ -190,7 +192,6 @@
             </div>
         </div>
     </div>
-    <script src="./js/vue.js"></script>
     <script src="./js/Ajax.js"></script>
 </body>
 </html>

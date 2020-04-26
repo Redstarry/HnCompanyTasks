@@ -303,7 +303,7 @@ F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\bin\Debug\netcoreapp3.1\netcoreapp
 F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\bin\Debug\netcoreapp3.1\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\obj\Debug\netcoreapp3.1\HnCompanyTasks.MvcApplicationPartsAssemblyInfo.cs
 F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\obj\Debug\netcoreapp3.1\HnCompanyTasks.MvcApplicationPartsAssemblyInfo.cache
-F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\obj\Debug\netcoreapp3.1\HnCompanyTasks.csprojAssemblyReference.cache
 D:\GitHub\HnCompanyTasks\HnCompanyTasks\HnCompanyTasks\bin\Debug\netcoreapp3.1\netcoreapp3.1\AutoMapper.dll
 D:\GitHub\HnCompanyTasks\HnCompanyTasks\HnCompanyTasks\bin\Debug\netcoreapp3.1\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 D:\GitHub\HnCompanyTasks\HnCompanyTasks\HnCompanyTasks\obj\Debug\netcoreapp3.1\HnCompanyTasks.csprojAssemblyReference.cache
+F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\obj\Debug\netcoreapp3.1\HnCompanyTasks.csprojAssemblyReference.cache

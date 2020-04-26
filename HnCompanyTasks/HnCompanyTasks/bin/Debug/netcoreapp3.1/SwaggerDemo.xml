@@ -34,7 +34,7 @@
             <param name="page">分页</param>
             <returns></returns>
         </member>
-        <member name="M:HnCompanyTasks.Controllers.TasksController.GetTask(ContactsAPI.Models.PageModel.Page,HnCompanyTasks.Models.Data.TaskRequestData)">
+        <member name="M:HnCompanyTasks.Controllers.TasksController.GetTask(ContactsAPI.Models.PageModel.Page,HnCompanyTasks.Models.Data.SelectRequestData)">
             <summary>
             根据数据，自定义查询
             </summary>
@@ -56,8 +56,72 @@
             删除任务
             </summary>
             <param name="id">任务编号</param>
-            <param name="page"></param>
             <returns></returns>
+        </member>
+        <member name="P:HnCompanyTasks.Models.Data.SelectRequestData.Task_Name">
+            <summary>
+            任务名字
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.Data.SelectRequestData.Task_TaskType">
+            <summary>
+            任务类型
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.Data.SelectRequestData.Task_BusinessType">
+            <summary>
+            业务类型
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.Data.SelectRequestData.Task_CreateTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.Data.SelectRequestData.Task_PresetTime">
+            <summary>
+            预定时间
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.Data.SelectRequestData.Task_Interval">
+            <summary>
+            时间间隔
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.Data.SelectRequestData.Task_ExecuteReuslt">
+            <summary>
+            执行结果 0 是False 1是True
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.Data.SelectRequestData.CreatTimeStart">
+            <summary>
+            查询类 创建时间开始 CreatTimeStart 格式： 2020-12-02 54:57
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.Data.SelectRequestData.CreatTimeEnd">
+            <summary>
+            查询类 创建时间结束 CreatTimeStart 格式： 2020-12-02 54:57
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.Data.SelectRequestData.TaskPresetTimeStart">
+            <summary>
+            查询类 预定时间开始 CreatTimeStart 格式： 2020-12-02 54:57
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.Data.SelectRequestData.TaskPresetTimeEnd">
+            <summary>
+            查询类 预定时间结束 CreatTimeStart 格式： 2020-12-02 54:57
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.Data.SelectRequestData.TaskLastExecuteTimeStart">
+            <summary>
+            查询类 执行时间开始 CreatTimeStart 格式： 2020-12-02 54:57
+            </summary>
+        </member>
+        <member name="P:HnCompanyTasks.Models.Data.SelectRequestData.TaskLastExecuteTimeEnd">
+            <summary>
+            查询类 执行时间结束 CreatTimeStart 格式： 2020-12-02 54:57
+            </summary>
         </member>
         <member name="P:HnCompanyTasks.Models.Data.TaskRequestData.Id">
             <summary>
@@ -197,7 +261,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HnCompanyTasks.Models.ITasksServer.GetTask(ContactsAPI.Models.PageModel.Page,HnCompanyTasks.Models.Data.TaskRequestData)">
+        <member name="M:HnCompanyTasks.Models.ITasksServer.GetTask(ContactsAPI.Models.PageModel.Page,HnCompanyTasks.Models.Data.SelectRequestData)">
             <summary>
             根据特定的内容查询任务
             </summary>
@@ -233,7 +297,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HnCompanyTasks.Models.TasksServer.GetTask(ContactsAPI.Models.PageModel.Page,HnCompanyTasks.Models.Data.TaskRequestData)">
+        <member name="M:HnCompanyTasks.Models.TasksServer.GetTask(ContactsAPI.Models.PageModel.Page,HnCompanyTasks.Models.Data.SelectRequestData)">
             <summary>
             获取相关的任务
             </summary>

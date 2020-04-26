@@ -111,10 +111,10 @@ namespace HnCompanyTasks.Models
         /// <param name="page">分页</param>
         /// <param name="taskRequestData">查询的数据</param>
         /// <returns></returns>
-        public async Task<ResponseData> GetTask( Page page, TaskRequestData taskRequestData)
+        public async Task<ResponseData> GetTask( Page page, SelectRequestData taskRequestData)
         {
-            var TaskDataMap = mapper.Map<TaskData>(taskRequestData);
-            var sql = helperFunction.SqlAssembly(TaskDataMap);
+            //var TaskDataMap = mapper.Map<SelectRequestData>(taskRequestData);
+            var sql = helperFunction.SqlAssembly(taskRequestData);
             var Data = await Db.PageAsync<TaskData>(page.PageNumber, page.PageSize, sql);
             return new ResponseData("查询成功", Data, StatusCode.Success);
         }

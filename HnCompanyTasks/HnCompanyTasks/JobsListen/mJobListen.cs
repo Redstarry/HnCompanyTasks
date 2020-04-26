@@ -38,9 +38,10 @@ namespace HnCompanyTasks.JobsListen
             var ExDate = TimeZoneInfo.ConvertTime(context.FireTimeUtc, TimeZoneInfo.Local).ToString("F");
             var UTCNextDate = context.NextFireTimeUtc;
             var UTCProDate = context.PreviousFireTimeUtc;
+            var nextDate = UTCNextDate != null ? TimeZoneInfo.ConvertTime((DateTimeOffset)context.NextFireTimeUtc,TimeZoneInfo.Local).ToString("F"):ExDate;
             var prevDate = UTCProDate != null ? TimeZoneInfo.ConvertTime((DateTimeOffset)context.PreviousFireTimeUtc, TimeZoneInfo.Local).ToString("F") : ExDate;
             Sql sql = Sql.Builder
-                .Set("Task_PresetTime = @0, Task_LastExecuteTime = @1, Task_ExecuteReuslt = 1", ExDate, prevDate)
+                .Set("Task_PresetTime = @0, Task_LastExecuteTime = @1, Task_ExecuteReuslt = 1", nextDate, prevDate)
                 .Where("Task_Name = @0", context.JobDetail.Key.Name);
             
             return Task.Run(()=> {

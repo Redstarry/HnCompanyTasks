@@ -35,7 +35,7 @@ namespace HnCompanyTasks.Models
         /// <param name="page">分页</param>
         /// <param name="taskRequestData">查询的任务数据</param>
         /// <returns></returns>
-        Task<ResponseData> GetTask(Page page , TaskRequestData taskRequestData);
+        Task<ResponseData> GetTask(Page page , SelectRequestData taskRequestData);
         /// <summary>
         /// 删除任务
         /// </summary>

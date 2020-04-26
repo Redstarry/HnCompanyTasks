@@ -38,7 +38,7 @@ namespace HnCompanyTasks.Business
             return $" {IntDay}天,  {ts.Hours}时, {ts.Minutes}分, {ts.Seconds}秒，后执行";
         }
 
-        public Sql SqlAssembly( TaskData taskDataMap )
+        public Sql SqlAssembly(SelectRequestData taskDataMap )
         {
             Sql selectSql = new Sql();
             selectSql.Append("select * from Tasks where Task_IsExists=1 ");
@@ -87,6 +87,12 @@ namespace HnCompanyTasks.Business
             {
                 selectSql.Append("and Task_ExecuteReuslt like @0", taskDataMap.Task_ExecuteReuslt);
             }
+            //创建时间
+            selectSql.Append(PeriodOfTimeQuery("Task_CreateTime", taskDataMap.CreatTimeStart, taskDataMap.CreatTimeEnd));
+            //预定时间
+            selectSql.Append(PeriodOfTimeQuery("Task_PresetTime", taskDataMap.TaskPresetTimeStart, taskDataMap.TaskPresetTimeEnd));
+            //执行时间
+            selectSql.Append(PeriodOfTimeQuery("Task_LastExecuteTime", taskDataMap.TaskLastExecuteTimeStart, taskDataMap.TaskLastExecuteTimeEnd));
             return selectSql;
         }
         /// <summary>
@@ -118,6 +124,25 @@ namespace HnCompanyTasks.Business
                 TimeSpanDate.Add(Convert.ToInt32(item));
             }
             return TimeSpanDate;
+        }
+
+        public  string PeriodOfTimeQuery(string queryField, string startTime, string endTIme)
+        {
+            string message = "";
+            if (!string.IsNullOrEmpty(startTime) && !string.IsNullOrEmpty(endTIme))
+            {
+                message = $"and {queryField} between '{startTime}' and '{endTIme}'";
+            }
+            else if (!string.IsNullOrEmpty(startTime))
+            {
+                message = $"and {queryField} > '{startTime}'";
+            }
+            else if (!string.IsNullOrEmpty(endTIme))
+            {
+                message = $"and {queryField} < '{endTIme}'";
+            }
+
+            return message;
         }
     }
 }
