@@ -16,14 +16,18 @@ for (let index = 0; index < 60; index++) {
 	minutes[index] = index;
 }
 var app;
-// var GetData = function(response) {
-// 	data = response["response"];
-// 	currentPage = data["currentPage"];
-// 	itemsPerPage = data["itemsPerPage"];
-// 	totalPages = data["totalPages"];
-// 	if(totalPages == 0) totalPages = 1;
-// 	totalItems = data["totalItems"];
-// };
+
+function timer() {
+    window.setInterval(function() {
+        var sj = Math.round(new Date() / 1000);
+        var expsj = window.localStorage["expDate"];
+        if(sj >= expsj)
+        {
+            $(window).attr("location", "../Login.html");
+        }
+    },1000);
+}
+timer();
 // 请求全部数据
 (function() {
 	$.ajax({
@@ -31,6 +35,7 @@ var app;
 		type: "get",
 		url: "http://192.168.1.47:5000/api/Tasks",
 		contentType: "application/json;charset=utf-8",
+		headers:{"Authorization":"Bearer " + window.localStorage["Token"]},
 		success: function(response) {
 			data = response["response"];
 			currentPage = data["currentPage"];
@@ -43,7 +48,7 @@ var app;
 		
 	});
 })();
-console.log(window.localStorage.getItem("data"))
+
 // GetData();
 
 // 用Vue更新数据
@@ -98,7 +103,9 @@ app = new Vue({
 			this.MaskTitle = "添加任务";
 			this.sendType = "post";
 			this.sendUrl = "http://192.168.1.47:5000/api/Tasks/task";
+			
 			this.IsShow = !this.IsShow;
+			$(".mask").removeClass("none");
 			var CurrentDateLong = new Date();
 			var month = CurrentDateLong.getMonth() + 1;
 			if( month < 10) month = "0" + month;
@@ -118,6 +125,7 @@ app = new Vue({
 				async:false,
 				type: "post",
 				url: "http://192.168.1.47:5000/api/Tasks",
+				headers:{"Authorization":"Bearer " + window.localStorage["Token"]},
 				data: JSON.stringify({
 					"Task_Name":this.SelectTaskName,
 					"Task_TaskType":this.SelectTaskType,
@@ -147,6 +155,7 @@ app = new Vue({
 				type: app.sendType,
 				url: app.sendUrl,
 				contentType: "application/json;charset=utf-8",
+				headers:{"Authorization":"Bearer " + window.localStorage["Token"]},
 				data: JSON.stringify({
 					"Task_Name": this.MaskTaskName,
 					"Task_TaskType": this.MaskTaskType,
@@ -281,6 +290,7 @@ function GetAjax(url) {
 		type: "get",
 		url: url,
 		contentType: "application/json;charset=utf-8",
+		headers:{"Authorization":"Bearer " + window.localStorage["Token"]},
 		success: function(response) {
 			data = response["response"];
 			currentPage = data["currentPage"];
@@ -297,6 +307,7 @@ function DeleteAjax(id) {
 		type: "delete",
 		url: "http://192.168.1.47:5000/api/Tasks/" + id,
 		contentType: "application/json;charset=utf-8",
+		headers:{"Authorization":"Bearer " + window.localStorage["Token"]},
 		success: function(response) {
 			// data = response["response"];
 			// currentPage = data["currentPage"];

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Cors;
 using HnCompanyTasks.Models.Data;
 using HnCompanyTasks.Models;
 using ContactsAPI.Models.PageModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HnCompanyTasks.Controllers
 {
@@ -27,6 +28,7 @@ namespace HnCompanyTasks.Controllers
         /// </summary>
         /// <param name="page">分页</param>
         /// <returns></returns>
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetTaskAll([FromQuery] Page page)
         {
@@ -38,6 +40,7 @@ namespace HnCompanyTasks.Controllers
         /// <param name="taskRequestData">任务信息</param>
         /// <param name="page">分页</param>
         /// <returns></returns>
+        [Authorize]
         [HttpPost("task")]
         public async Task<IActionResult> Add(TaskRequestData taskRequestData, [FromQuery]Page page)
         {
@@ -49,6 +52,7 @@ namespace HnCompanyTasks.Controllers
         /// <param name="page">分页</param>
         /// <param name="taskRequestData">查询的数据</param>
         /// <returns></returns>
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> GetTask([FromQuery] Page page,[FromBody]SelectRequestData taskRequestData)
         {
@@ -61,6 +65,7 @@ namespace HnCompanyTasks.Controllers
         /// <param name="updateRequestData">更新后的信息</param>
         /// <param name="page">分页</param>
         /// <returns></returns>
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> update( int id , UpdateRequestData updateRequestData, [FromQuery]Page page)
         {
@@ -71,10 +76,21 @@ namespace HnCompanyTasks.Controllers
         /// </summary>
         /// <param name="id">任务编号</param>
         /// <returns></returns>
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> delete(int id)
         {
             return Ok(await tasksServer.DeleteTask(id));
+        }
+        /// <summary>
+        /// 登录验证接口
+        /// </summary>
+        /// <param name="userInfo">用户名和密码</param>
+        /// <returns></returns>
+        [HttpPost("login")]
+        public async Task<IActionResult> PostLogin(UserInfo userInfo)
+        {
+            return Ok(await tasksServer.UserInfo(userInfo));
         }
     }
 }

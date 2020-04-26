@@ -14,6 +14,8 @@ using Microsoft.Extensions.Logging;
 using Quartz;
 using Quartz.Impl;
 using AutoMapper;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace HnCompanyTasks
 {
@@ -45,6 +47,32 @@ namespace HnCompanyTasks
                 var xmlPath = Path.Combine(basePath, "SwaggerDemo.xml");
                 option.IncludeXmlComments(xmlPath);
             });
+            services.AddAuthentication(options => {
+                options.DefaultAuthenticateScheme = "JwtBearToken"; //默认的身份验证模式
+                options.DefaultChallengeScheme = "JwtBearToken";
+                options.DefaultScheme = "JwtBearToken"; //默认模式
+
+            }).AddJwtBearer("JwtBearToken", options => {
+                //options.SaveToken = true;
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    SaveSigninToken = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("123456789963258741")),
+
+                    ValidateIssuer = true,
+                    ValidIssuer = "tp",
+
+                    ValidateAudience = true,
+                    ValidAudience = "everyone",
+
+                    ValidateLifetime = true,
+
+                    //ClockSkew = TimeSpan.FromMinutes(5)
+
+                };
+
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,6 +86,7 @@ namespace HnCompanyTasks
             app.UseRouting();
             app.UseCors("Domain");
 
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseSwagger();
             app.UseSwaggerUI(option=> {

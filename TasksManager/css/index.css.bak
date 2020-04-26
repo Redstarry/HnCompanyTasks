@@ -28,10 +28,6 @@ body
     background:rgba(0,0,0,.5);
     z-index: 3;
 }
-#app .none
-{
-	display:none;
-}
 
 #app .mask .addInterface
 {

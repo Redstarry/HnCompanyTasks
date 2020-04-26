@@ -1,0 +1,57 @@
+*{
+
+    margin:0;
+    padding:0;
+}
+html, body
+{
+    width: 100%;
+    height: 100%;
+}
+body{
+
+    position: relative;
+    /* height:1080px; */
+}
+
+.container
+{
+    position: fixed;
+    top:0;
+    left:0;
+    bottom: 0;
+    right: 0;
+    box-shadow: 12px 12px 500px #888888;
+    height:480px;
+    width: 400px;
+    transform: translate(-50% -50%);
+}
+
+.headimg
+{
+    height:150px;
+    vertical-align: middle;
+}
+
+.headimg .dogimg
+{
+    height:100px;
+    width: 100px;
+}
+.headimg::after
+{
+    display: inline-block;
+    width: 0;
+    height: 100%;
+    content: "center";
+    vertical-align: middle;
+    overflow: hidden;
+}
+.register
+{
+    margin-left:12px
+}
+img{
+    width: 100%;
+    height: 100%;
+}

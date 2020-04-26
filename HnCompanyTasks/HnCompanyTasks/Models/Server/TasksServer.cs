@@ -7,6 +7,11 @@ using HnCompanyTasks.Models.Data;
 using Quartz;
 using AutoMapper;
 using ContactsAPI.Models.PageModel;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.IdentityModel.Logging;
+using System.Security.Claims;
 
 namespace HnCompanyTasks.Models
 {
@@ -166,6 +171,50 @@ namespace HnCompanyTasks.Models
             //await Db.UpdateAsync(RequestData);
             //var Data1 = await Db.PageAsync<TaskData>(page.PageNumber, page.PageSize, "where Task_Isexists = 1");
             //return new ResponseData("修改成功", Data1, StatusCode.Success);
+        }
+
+        /// <summary>
+        /// 判断是否登录成功，若成功，则返回Token。
+        /// </summary>
+        /// <param name="userInfo">用户登录信息的实体类</param>
+        /// <returns></returns>
+        public async Task<ResponseData> UserInfo(UserInfo userInfo)
+        {
+            var selectUserInfo = await Db.SingleOrDefaultAsync<UserInfo>("where UserName = @0", userInfo.UserName);
+            if (!(userInfo.UserName.Equals(selectUserInfo.UserName) && userInfo.Pwd.Equals(selectUserInfo.Pwd)))
+            {
+                return new ResponseData( "账号或密码错误", "", StatusCode.Fail);
+            }
+            var nbf = DateTime.Now;
+            var exp = nbf.AddMinutes(60);
+            var myClaim = new[] {
+
+                new Claim(JwtRegisteredClaimNames.Sub,selectUserInfo.UserName),
+                new Claim("Company", "hn"),
+                new Claim("author", "tp"),
+                new Claim(JwtRegisteredClaimNames.Exp,$"{new DateTimeOffset(exp).ToUnixTimeSeconds()}"),
+                new Claim(JwtRegisteredClaimNames.Nbf,$"{new DateTimeOffset(nbf).ToUnixTimeSeconds()}")
+            };
+            IdentityModelEventSource.ShowPII = true;
+
+            var authKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("123456789963258741"));
+
+            var token = new JwtSecurityToken(
+                    issuer: "tp",
+                    expires: exp,
+                    audience: "everyone",
+                    notBefore: nbf,
+                    claims: myClaim,
+                    signingCredentials: new SigningCredentials(authKey, SecurityAlgorithms.HmacSha256)
+                );
+            var tokenAndTime = new
+            {
+                jwttoken = new JwtSecurityTokenHandler().WriteToken(token),
+                //overdue = token.ValidTo.ToLocalTime()
+                overdue = new DateTimeOffset(token.ValidTo).ToUnixTimeSeconds()
+            };
+            return new ResponseData("验证通过", tokenAndTime, StatusCode.Success);
+
         }
     }
 }

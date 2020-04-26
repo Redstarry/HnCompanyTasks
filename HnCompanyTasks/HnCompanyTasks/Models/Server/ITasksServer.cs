@@ -42,5 +42,7 @@ namespace HnCompanyTasks.Models
         /// <param name="id">任务的编号</param>
         /// <returns></returns>
         Task<ResponseData> DeleteTask(int id);
+
+        Task<ResponseData> UserInfo(UserInfo userInfo);
     }
 }
