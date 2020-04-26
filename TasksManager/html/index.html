@@ -21,14 +21,15 @@
             <div class="row pb-3">
                 <div class="col-4">
                     <span>编&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号 : </span>
-                    <input type="text" style="width: 154px;" v-model="SelectId">
+                    <input type="text" style="width: 154px;" v-model="SelectId" disabled>
                 </div>
                 
                 <div class="col-3">
                     <span>执行状态 : </span>
                     <select name="" id="" style="width: 100px; height: 28px;" v-model="SelectTaskStatus" >
-                        <option value="否">否</option>
-                        <option value="是">是</option>
+                        <option value="2">全部</option>
+                        <option value="0">否</option>
+                        <option value="1">是</option>
                     </select>
                 </div>
                 <div class="col-5">
@@ -47,6 +48,7 @@
                 <div class="col-3">
                     <span>任务类型 : </span>
                     <select name="" id="" style="width: 100px; height: 28px;" v-model="SelectTaskType">
+                        <option value="all">全部</option>
                         <option value="OneOff">OneOff</option>
                         <option value="TimedTask">TimedTask</option>
                     </select>

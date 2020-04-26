@@ -304,7 +304,6 @@ F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\bin\Debug\netcoreapp3.1\netcoreapp
 D:\GitHub\HnCompanyTasks\HnCompanyTasks\HnCompanyTasks\bin\Debug\netcoreapp3.1\netcoreapp3.1\AutoMapper.dll
 D:\GitHub\HnCompanyTasks\HnCompanyTasks\HnCompanyTasks\bin\Debug\netcoreapp3.1\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 D:\GitHub\HnCompanyTasks\HnCompanyTasks\HnCompanyTasks\obj\Debug\netcoreapp3.1\HnCompanyTasks.csprojAssemblyReference.cache
-F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\obj\Debug\netcoreapp3.1\HnCompanyTasks.csprojAssemblyReference.cache
 F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\bin\Debug\netcoreapp3.1\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\bin\Debug\netcoreapp3.1\netcoreapp3.1\Microsoft.IdentityModel.JsonWebTokens.dll
 F:\GIthub\Tasks\HnCompanyTasks\HnCompanyTasks\bin\Debug\netcoreapp3.1\netcoreapp3.1\Microsoft.IdentityModel.Logging.dll

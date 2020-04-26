@@ -52,7 +52,15 @@ namespace HnCompanyTasks.Business
                 //任务类型不为空
                 if (!string.IsNullOrEmpty(taskDataMap.Task_TaskType))
                 {
-                    selectSql.Append("and Task_TaskType like @0", "%" + taskDataMap.Task_TaskType + "%");
+                    if (taskDataMap.Task_TaskType == "all")
+                    {
+                        selectSql.Append("and (Task_TaskType = @0 or  Task_TaskType = @1)", "OneOff", "TimedTask");
+                    }
+                    else
+                    {
+                        selectSql.Append("and Task_TaskType like @0", "%" + taskDataMap.Task_TaskType + "%");
+                    }
+                   
                 }
                 //业务类型不为空
                 if (!string.IsNullOrEmpty(taskDataMap.Task_BusinessType))
@@ -83,9 +91,17 @@ namespace HnCompanyTasks.Business
             }
 
             //完成状态不为空
-            if (taskDataMap.Task_ExecuteReuslt == 0 || taskDataMap.Task_ExecuteReuslt == 1)
+            if (!string.IsNullOrEmpty(taskDataMap.Task_ExecuteReuslt))
             {
-                selectSql.Append("and Task_ExecuteReuslt like @0", taskDataMap.Task_ExecuteReuslt);
+                if (Convert.ToInt32(taskDataMap.Task_ExecuteReuslt) == 0 || Convert.ToInt32(taskDataMap.Task_ExecuteReuslt) == 1)
+                {
+                    selectSql.Append("and Task_ExecuteReuslt like @0", taskDataMap.Task_ExecuteReuslt);
+                }
+                else
+                {
+                    selectSql.Append("and (Task_ExecuteReuslt like 0 or Task_ExecuteReuslt like 1)");
+                }
+                
             }
             //创建时间
             selectSql.Append(PeriodOfTimeQuery("Task_CreateTime", taskDataMap.CreatTimeStart, taskDataMap.CreatTimeEnd));

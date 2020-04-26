@@ -36,7 +36,7 @@ namespace HnCompanyTasks.Models.Data
         /// <summary>
         /// 执行结果 0 是False 1是True
         /// </summary>
-        public int Task_ExecuteReuslt { get; set; }
+        public string Task_ExecuteReuslt { get; set; }
 
         /// <summary>
         /// 查询类 创建时间开始 CreatTimeStart 格式： 2020-12-02 54:57

@@ -4,9 +4,10 @@ var currentPage = null;
 //一页的数量
 var itemsPerPage = null;
 //总页数
-var totalPages = 2;
+var totalPages = 1;
 //总数量
 var totalItems = null;
+var temp = "";
 var Hours = new Array();
 var minutes = new Array();
 for (let index = 0; index < 24; index++) {
@@ -29,54 +30,56 @@ function timer() {
 }
 timer();
 // 请求全部数据
-(function() {
-	$.ajax({
-		async: false,
-		type: "get",
-		url: "http://192.168.1.47:5000/api/Tasks",
-		contentType: "application/json;charset=utf-8",
-		headers:{"Authorization":"Bearer " + window.localStorage["Token"]},
-		success: function(response) {
-			data = response["response"];
-			currentPage = data["currentPage"];
-			itemsPerPage = data["itemsPerPage"];
-			totalPages = data["totalPages"];
-			if(totalPages == 0) totalPages = 1;
-			totalItems = data["totalItems"];
-			// window.localStorage.setItem("data",response["response"]);
-		}
+// (function() {
+// 	$.ajax({
+// 		async: false,
+// 		type: "get",
+// 		url: "http://192.168.1.47:5000/api/Tasks",
+// 		contentType: "application/json;charset=utf-8",
+// 		headers:{"Authorization":"Bearer " + window.localStorage["Token"]},
+// 		success: function(response) {
+// 			data = response["response"];
+// 			currentPage = data["currentPage"];
+// 			itemsPerPage = data["itemsPerPage"];
+// 			totalPages = data["totalPages"];
+// 			if(totalPages == 0) totalPages = 1;
+// 			totalItems = data["totalItems"];
+// 			// window.localStorage.setItem("data",response["response"]);
+// 		}
 		
-	});
-})();
+// 	});
+// })();
 
-// GetData();
-
+if(data != null)
+{
+	temp = data["items"];
+}
 // 用Vue更新数据
 app = new Vue({
 	el: "#app",
 	data: {
-		showData: data["items"],
+		IsShow: false,
+		showData: temp,
 		Number1: parseInt(totalPages),
 		HoursData: Hours,
 		Minutes: minutes,
-		IsShow: false,
 		MaskTitle:"",
 		sendUrl:"",
 		sendType:"",
 		MaskTaskName: '',
 		MaskTaskType: '',
-		MaskIntervalD: '',
-		MaskIntervalH: '',
-		MaskIntervalM: '',
-		MaskIntervalS: '',
+		MaskIntervalD: 0,
+		MaskIntervalH: 0,
+		MaskIntervalM: 0,
+		MaskIntervalS: 0,
 		MaskBuinessType: '',
 		MaskDes: '',
 		Maskval:"",
 		MaskIsDisable:false,
 		SelectId:"",
 		SelectTaskName:"",
-		SelectTaskStatus:"",
-		SelectTaskType:"",
+		SelectTaskStatus:"2",
+		SelectTaskType:"all",
 		SelectCreateStartTime:"",
 		SelectCreateEndTime:"",
 		SelectExStartTime:"",
@@ -91,10 +94,10 @@ app = new Vue({
 			this.sendType="";
 			this.MaskTaskName="";
 			this.MaskTaskType="";
-			this.MaskIntervalD="";
-			this.MaskIntervalH="";
-			this.MaskIntervalM="";
-			this.MaskIntervalS="";
+			this.MaskIntervalD=0;
+			this.MaskIntervalH=0;
+			this.MaskIntervalM=0;
+			this.MaskIntervalS=0;
 			this.MaskBuinessType="";
 			this.MaskDes = "";
 			this.Maskval = "";
@@ -137,6 +140,7 @@ app = new Vue({
 				contentType: "application/json;charset=utf-8",
 				success: function (response) {
 					data = response["response"];
+					app.showData = data["items"];
 					currentPage = data["currentPage"];
 					itemsPerPage = data["itemsPerPage"];
 					totalPages = data["totalPages"];
@@ -147,8 +151,12 @@ app = new Vue({
 		sendAddAjax: function() {
 			var NewExDate = this.Maskval.split("T").join(" ");
 			console.log(NewExDate);
-			var Interval = this.MaskIntervalD + ":" + this.MaskIntervalH + ":" + this.MaskIntervalM + ":" + this.MaskIntervalS;
-			console.log(this.MaskTaskName)
+			var Interval = "";
+			if(this.MaskIntervalD!="" || this.MaskIntervalH!="" || this.MaskIntervalM !="" || this.MaskIntervalS != "")
+			{
+				Interval = this.MaskIntervalD + ":" + this.MaskIntervalH + ":" + this.MaskIntervalM + ":" + this.MaskIntervalS;
+			}
+			console.log(Interval)
 			$.ajax({
 				async: false,
 				type: app.sendType,
@@ -164,6 +172,11 @@ app = new Vue({
 					"Task_Describe": this.MaskDes
 				}),
 				success: function(response) {
+					if(response["status"] == 0)
+					{
+						alert(response["message"])
+						return;
+					}
 					app.MaskTaskName = '';
 					app.MaskTaskType = '';
 					app.MaskBuinessType = "";
@@ -175,7 +188,7 @@ app = new Vue({
 					totalItems = data["totalItems"];
 					app.showData = data["items"];
 					app.Number1 = parseInt(data["totalPages"]);
-					app.IsShow = false;
+					app.IsShow = !app.IsShow;
 				}
 			});
 		}
