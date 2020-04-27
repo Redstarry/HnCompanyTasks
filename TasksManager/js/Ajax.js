@@ -54,6 +54,14 @@ if(data != null)
 {
 	temp = data["items"];
 }
+function initDate1() {
+	var DateTime = new Date();
+	var Month = DateTime.getMonth() + 1;
+	if(Month < 10) Month = "0" + Month;
+	var Day = DateTime.getDate();
+	if(Day < 10) Day = "0" + Day;
+	return DateTime.getFullYear() + "-" + Month + "-" + Day +"T00:00:00";
+}
 // 用Vue更新数据
 app = new Vue({
 	el: "#app",
@@ -80,10 +88,11 @@ app = new Vue({
 		SelectTaskName:"",
 		SelectTaskStatus:"2",
 		SelectTaskType:"all",
-		SelectCreateStartTime:"",
-		SelectCreateEndTime:"",
-		SelectExStartTime:"",
-		SelectExEndTime:""
+		SelectCreateStartTime:initDate1(),
+		SelectCreateEndTime:initDate1(),
+		SelectExStartTime:initDate1(),
+		SelectExEndTime:initDate1(),
+		startDate:0
 	},
 	methods: {
 		MaskCancel: function(params) {
@@ -122,31 +131,39 @@ app = new Vue({
 			var CurrentDate = CurrentDateLong.getFullYear() + "-" + month  + "-" + CurDate + "T" + hoursTime + ":" + min + ":" + second;
 			this.Maskval = CurrentDate;
 		},
-		SelectBtn: function(params) {
-			$.ajax({
-				async:false,
-				type: "post",
-				url: "http://192.168.1.47:5000/api/Tasks",
-				headers:{"Authorization":"Bearer " + window.localStorage["Token"]},
-				data: JSON.stringify({
-					"Task_Name":this.SelectTaskName,
-					"Task_TaskType":this.SelectTaskType,
-					"Task_ExecuteReuslt":this.SelectTaskStatus,
-					"CreatTimeStart":this.SelectCreateStartTime,
-					"CreatTimeEnd":this.SelectCreateEndTime,
-					"TaskPresetTimeStart":this.SelectExStartTime,
-					"TaskPresetTimeEnd":this.SelectExEndTime
-				}),
-				contentType: "application/json;charset=utf-8",
-				success: function (response) {
-					data = response["response"];
-					app.showData = data["items"];
-					currentPage = data["currentPage"];
-					itemsPerPage = data["itemsPerPage"];
-					totalPages = data["totalPages"];
-					totalItems = data["totalItems"];
-				}
-			});
+		SelectBtn: function() {
+			
+			var NowDate = new Date().getTime();
+			if(NowDate - this.startDate > 2000)
+			{
+				$.ajax({
+					async:false,
+					type: "post",
+					url: "http://192.168.1.47:5000/api/Tasks",
+					headers:{"Authorization":"Bearer " + window.localStorage["Token"]},
+					data: JSON.stringify({
+						"Task_Name":this.SelectTaskName,
+						"Task_TaskType":this.SelectTaskType,
+						"Task_ExecuteReuslt":this.SelectTaskStatus,
+						"CreatTimeStart":this.changeDate(this.SelectCreateStartTime), 
+						"CreatTimeEnd":this.changeDate(this.SelectCreateEndTime),
+						"TaskPresetTimeStart":this.changeDate(this.SelectExStartTime),
+						"TaskPresetTimeEnd":this.changeDate(this.SelectExEndTime)
+					}),
+					contentType: "application/json;charset=utf-8",
+					success: function (response) {
+						data = response["response"];
+						app.showData = data["items"];
+						currentPage = data["currentPage"];
+						itemsPerPage = data["itemsPerPage"];
+						totalPages = data["totalPages"];
+						totalItems = data["totalItems"];
+					}
+				});
+				this.startDate = NowDate;
+				console.log(this.startDate)
+			}
+			
 		},
 		sendAddAjax: function() {
 			var NewExDate = this.Maskval.split("T").join(" ");
@@ -191,6 +208,9 @@ app = new Vue({
 					app.IsShow = !app.IsShow;
 				}
 			});
+		},
+		changeDate:function (oldDate) {
+			return oldDate.split("T").join(" ");
 		}
 	},
 	watch: {
@@ -262,13 +282,18 @@ $(".page .pageNum").click(function(e) {
 
 // 删除数据的事件
 function removeData(params) {
-	var id = $(this).parent().parent().find(".id").html()
-	var index = $(".active").index();
-	DeleteAjax(id);
-	var url = "http://192.168.1.47:5000/api/Tasks?pageNumber=" + index + "&PageSize=" + itemsPerPage;
-	GetAjax(url);
-	app.showData = data["items"];
-	app.Number1 = parseInt(data["totalPages"]);
+	var flag = confirm("确定要删除这条数据吗？");
+	if(flag)
+	{
+		var id = $(this).parent().parent().find(".id").html()
+		var index = $(".active").index();
+		DeleteAjax(id);
+		var url = "http://192.168.1.47:5000/api/Tasks?pageNumber=" + index + "&PageSize=" + itemsPerPage;
+		GetAjax(url);
+		app.showData = data["items"];
+		app.Number1 = parseInt(data["totalPages"]);
+	}
+	
 
 }
 // 更新数据的事件
