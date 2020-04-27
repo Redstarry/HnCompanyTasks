@@ -101,8 +101,8 @@
                             <td v-else class="Exists">已执行</td>
                             <td class="Describe">{{item.task_Describe}}</td>
                             <td class="btnZu">
-                                <button class="btn btn-warning" onclick="updateData.call(this)">更新</button>
-                                <button class="btn btn-danger" onclick="removeData.call(this)">删除</button>
+                                <button class="btn btn-warning" @click="UpdateBtn($event)">更新</button>
+                                <button class="btn btn-danger" @click="RemoveBtn($event)">删除</button>
                             </td>
                         </tr> 
                     </tbody>
@@ -113,10 +113,10 @@
                 <!-- <div class="col-4"></div> -->
                 <div class="col-12 text-center">
                     <ul class="pagination page" style="display: inline-flex;">
-                        <li class="page-item disabled preLi"><a href="#" class="page-link prev">上一页</a></li>
+                        <li class="page-item disabled preLi"><a href="#" class="page-link prev" @click="PrevBtn">上一页</a></li>
                         <!-- <li class="page-item active firstPage pageNum" v-for="count in Number1"><a href="#" class="page-link">{{count}}</a></li> -->
-                        <li class="page-item pageNum" v-for="count in Number1" ><a href="#" class="page-link">{{count}}</a></li>
-                        <li class="page-item"><a href="#" class="page-link next">下一页</a></li>
+                        <li class="page-item pageNum" v-for="count in PageInfo['TotalPage']" @click="NumberBtn"><a href="#" class="page-link">{{count}}</a></li>
+                        <li class="page-item"><a href="#" class="page-link next" @click="NextBtn">下一页</a></li>
                     </ul>
                 </div>
                 <!-- <div class="col-4"></div> -->
@@ -126,7 +126,7 @@
         <div class="mask" v-if="IsShow" >
             
             <div class="container addInterface">
-                <h2 class="text-center pt-4 pb-4">{{MaskTitle}}</h2>
+                <h2 class="text-center pt-4 pb-4">{{title}}</h2>
                 <div class="row pb-2">
                     <div class="col-4 ">
                         <span>任务名称 : </span>
@@ -143,24 +143,24 @@
                 <div class="row pb-2 pt-2">
                     <div class="col-4">
                         <span>任务类型 : </span>
-                        <select name="" id="" style="width: 100px; height: 28px;" v-model="MaskTaskType" :disabled = "MaskIsDisable">
+                        <select name="TaskType" id="" style="width: 100px; height: 28px;" v-model="MaskTaskType" :disabled = "MaskIsDisable" @blur="OpenOrCloseInterval">
                             <option value="OneOff">OneOff</option>
                             <option value="TimedTask">TimedTask</option>
                         </select>
                     </div>
 					<div class="col-8">
 						<span>执行间隔 : </span>
-						<input type="text" style="width: 70px; height: 24px; text-align: center;" v-model="MaskIntervalD">
+						<input type="text" style="width: 70px; height: 24px; text-align: center;" v-model="MaskIntervalD" class="Day" :disabled="OpenOrClose">
 						<span>天,</span>
-						<select name="" id="" v-model="MaskIntervalH">
-						    <option v-for="hour in HoursData" :value="hour">{{hour}}</option>
+						<select name="" id="hour" v-model="MaskIntervalH" :disabled="OpenOrClose">
+						    <option v-for="hour in HoursData" :value="hour" >{{hour}}</option>
 						</select>
 						<span>时,</span>
-						<select name="" id=""  v-model="MaskIntervalM">
+						<select name="" id="min"  v-model="MaskIntervalM" :disabled="OpenOrClose">
 						    <option v-for="min in Minutes" :value="min">{{min}}</option>
 						</select>
 						<span>分,</span>
-						<select name="" id=""  v-model="MaskIntervalS">
+						<select name="" id="second"  v-model="MaskIntervalS" :disabled="OpenOrClose">
 						    <option v-for="min in Minutes" :value="min">{{min}}</option>
 						</select>
 						<span>秒</span>
@@ -185,7 +185,7 @@
                 <!-- 按钮 -->
                 <div class="row text-center">
                     <div class="col-6">
-                        <button class="btn btn-success" @click="sendAddAjax">确定</button>
+                        <button class="btn btn-success" @click="SureBtn($event)">确定</button>
                     </div>
                     <div class="col-6">
                         <button class="btn btn-danger" @click="MaskCancel">取消</button>
@@ -194,6 +194,6 @@
             </div>
         </div>
     </div>
-    <script src="../js/Ajax.js"></script>
+    <script src="../js/newAjax.js"></script>
 </body>
 </html>
